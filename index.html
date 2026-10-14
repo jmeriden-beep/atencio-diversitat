@@ -1,1 +1,2304 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escola Àngels Alemany i Boris — Atenció a la diversitat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F3EC;
+    --paper-alt:#EFEAE0;
+    --panel:#FFFFFF;
+    --navy:#16335A;
+    --navy-deep:#0F2542;
+    --teal:#0E8AA6;
+    --sage:#4F8F80;
+    --gold:#D9C57E;
+    --gold-deep:#B79A45;
+    --purple:#6B4C93;
+    --ink:#20262F;
+    --ink-soft:#5B6470;
+    --line:#DDD5C4;
+    --line-soft:#E8E2D4;
+    --danger:#B5493B;
+    --danger-soft:#F3E2DE;
+    --radius-lg:16px;
+    --radius-md:10px;
+    --radius-sm:6px;
+    --shadow-card: 0 1px 2px rgba(22,51,90,0.06), 0 6px 20px rgba(22,51,90,0.07);
+  }
 
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Libre Franklin', -apple-system, sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', Georgia, serif;
+    margin:0;
+    color:var(--navy-deep);
+    font-weight:600;
+  }
+  button{font-family:inherit;}
+  :focus-visible{outline:2.5px solid var(--teal); outline-offset:2px;}
+
+  /* ===== HEADER ===== */
+  .site-header{
+    background:linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 62%, #1c4270 100%);
+    color:#F4EFE2;
+    padding:26px 32px;
+    display:flex;
+    align-items:center;
+    gap:22px;
+    border-bottom:4px solid var(--gold);
+    position:relative;
+    overflow:hidden;
+  }
+  .site-header::after{
+    content:"";
+    position:absolute;
+    right:-60px; top:-90px;
+    width:280px; height:280px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(217,197,126,0.14) 0%, rgba(217,197,126,0) 70%);
+    pointer-events:none;
+  }
+  .logo-badge{
+    background:#FCFAF4;
+    border-radius:14px;
+    padding:8px;
+    width:66px; height:66px;
+    flex:none;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 14px rgba(15,37,66,0.35);
+  }
+  .logo-badge img{width:100%; height:100%; object-fit:contain;}
+  .header-text{position:relative; z-index:1;}
+  .header-text h1{
+    font-size:1.55rem;
+    color:#FBF8F0;
+    letter-spacing:0.2px;
+    line-height:1.15;
+  }
+  .header-text p{
+    margin:5px 0 0;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--gold);
+    font-weight:500;
+  }
+  .header-count{
+    margin-left:auto;
+    text-align:right;
+    position:relative; z-index:1;
+    padding-left:18px;
+    flex:none;
+  }
+  .header-count .num{
+    font-family:'Fraunces', serif;
+    font-size:2.1rem;
+    font-weight:600;
+    color:#FBF8F0;
+    display:block;
+    line-height:1;
+  }
+  .header-count .lbl{
+    font-size:0.78rem;
+    color:#C9D2DE;
+  }
+
+  /* ===== LAYOUT ===== */
+  .wrap{max-width:1180px; margin:0 auto; padding:30px 24px 70px;}
+  .view.hidden{display:none;}
+  .hidden{display:none !important;}
+
+  /* ===== PANEL ===== */
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-card);
+    padding:26px 28px 22px;
+    margin-bottom:34px;
+  }
+  .panel-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .panel-head h2{font-size:1.3rem;}
+  .panel-help{
+    color:var(--ink-soft);
+    font-size:0.86rem;
+    max-width:560px;
+    margin:6px 0 0;
+  }
+  .edit-flag{
+    display:none;
+    background:var(--gold);
+    color:var(--navy-deep);
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:0.85rem;
+    padding:4px 12px;
+    border-radius:20px;
+  }
+  .edit-flag.show{display:inline-block;}
+
+  fieldset{border:0; margin:0; padding:0;}
+  .section-title{
+    font-family:'Fraunces', serif;
+    font-size:0.98rem;
+    font-weight:600;
+    color:var(--teal);
+    margin:22px 0 12px;
+    padding-top:16px;
+    border-top:1px solid var(--line-soft);
+  }
+  .section-title:first-of-type{border-top:none; margin-top:14px; padding-top:0;}
+
+  .field-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));
+    gap:16px 18px;
+  }
+  .search-grid{grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); margin-top:18px;}
+  .field{display:flex; flex-direction:column; gap:5px;}
+  .field.wide{grid-column:1 / -1;}
+  .field label{
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .field label .req{color:var(--danger);}
+  .field input[type="text"],
+  .field input[type="date"],
+  .field input[type="email"],
+  .field input[type="tel"],
+  .field select,
+  .field textarea{
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:9px 11px;
+    font-size:0.92rem;
+    font-family:inherit;
+    color:var(--ink);
+    background:#FEFDFB;
+    transition:border-color .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    border-color:var(--teal);
+  }
+  .field input.invalid, .field select.invalid{
+    border-color:var(--danger);
+    background:var(--danger-soft);
+  }
+  .field textarea{resize:vertical; min-height:64px;}
+
+  .pi-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px,1fr));
+    gap:8px 18px;
+  }
+  .pi-item{
+    display:flex; align-items:center; gap:8px;
+    font-size:0.86rem;
+    padding:6px 4px;
+  }
+  .pi-item input{width:16px; height:16px; accent-color:var(--teal);}
+  .radio-grid{grid-template-columns:repeat(auto-fill, minmax(90px,1fr));}
+
+  .panel-actions{
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid var(--line-soft);
+  }
+  .btn{
+    border:none; cursor:pointer;
+    border-radius:24px;
+    padding:11px 22px;
+    font-size:0.9rem;
+    font-weight:600;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .1s, box-shadow .15s, background .15s;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-cerca{background:var(--teal); color:#fff;}
+  .btn-cerca:hover{background:#0b7690;}
+  .btn-primary{background:var(--navy); color:#fff;}
+  .btn-primary:hover{background:var(--navy-deep);}
+  .btn-ghost{background:transparent; color:var(--ink-soft); border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--ink-soft); color:var(--ink);}
+  .btn-cancel-edit{background:transparent; color:var(--danger); border:1px solid var(--danger-soft);}
+  .btn-danger{background:var(--danger); color:#fff;}
+  .btn-danger:hover{background:#953a2f;}
+  .btn:disabled{opacity:0.5; cursor:not-allowed;}
+  .btn-add-student{
+    background:var(--gold-deep); color:#fff;
+  }
+  .btn-add-student:hover{background:#9a7f37;}
+
+  .new-student-row{
+    margin-top:22px; padding-top:20px; border-top:1px solid var(--line-soft);
+    display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  }
+  .new-student-row p{margin:0; color:var(--ink-soft); font-size:0.86rem; max-width:420px;}
+
+  /* ===== FOTO ===== */
+  .photo-upload-row{
+    display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+    margin:20px 0 6px;
+    padding:16px 18px;
+    background:var(--paper-alt);
+    border:1px solid var(--line-soft);
+    border-radius:var(--radius-md);
+  }
+  .photo-preview{
+    width:92px; height:92px; flex:none;
+    border-radius:50%;
+    background:#FEFDFB;
+    border:2px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .photo-preview img{width:100%; height:100%; object-fit:cover;}
+  #photoPlaceholder{font-size:0.72rem; color:var(--ink-soft); text-align:center; padding:0 8px;}
+  .photo-upload-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .photo-upload-actions label.btn{cursor:pointer;}
+  .photo-hint{
+    flex-basis:100%; margin:2px 0 0; color:var(--ink-soft); font-size:0.78rem;
+  }
+
+  .contents-grid{grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));}
+  .contents-grid textarea{min-height:110px;}
+  .eval-tabs{display:flex; gap:4px; flex-wrap:wrap; border-bottom:2px solid var(--line-soft); margin-top:4px;}
+  .eval-tab{
+    background:transparent; border:none; cursor:pointer;
+    padding:10px 16px; font-size:0.88rem; font-weight:600; color:var(--ink-soft);
+    border-radius:8px 8px 0 0; border-bottom:3px solid transparent; margin-bottom:-2px;
+  }
+  .eval-tab:hover{color:var(--ink);}
+  .eval-tab.active{color:var(--navy-deep); border-bottom-color:var(--teal); background:var(--paper-alt);}
+  .eval-tab .count{background:var(--gold); color:var(--navy-deep); border-radius:10px; font-size:0.7rem; padding:1px 7px; margin-left:6px;}
+  .eval-panel{
+    background:var(--paper-alt); border:1px solid var(--line-soft); border-top:none;
+    border-radius:0 0 var(--radius-md) var(--radius-md); padding:16px 18px;
+  }
+  .eval-entry{
+    background:#fff; border:1px solid var(--line-soft); border-left:3px solid var(--teal);
+    border-radius:8px; padding:10px 14px; margin-top:10px;
+  }
+  .eval-entry-head{display:flex; justify-content:space-between; gap:10px; font-size:0.75rem; color:var(--ink-soft); margin-bottom:4px;}
+  .eval-entry p{margin:0; white-space:pre-wrap; font-size:0.9rem;}
+  .eval-del{background:none; border:none; color:var(--danger); cursor:pointer; font-size:0.75rem; font-weight:600;}
+  .eval-empty{margin:12px 0 0; color:var(--ink-soft); font-size:0.85rem;}
+  .fitxa-group-title{font-size:0.8rem; font-weight:600; color:var(--navy-deep); margin:10px 0 6px;}
+  .fitxa-note + .fitxa-note{margin-top:6px;}
+  .fitxa-note .stamp{display:block; font-size:0.72rem; color:var(--ink-soft); margin-bottom:2px;}
+  .card-top{display:flex; gap:12px; align-items:flex-start;}
+  .card-avatar{
+    width:44px; height:44px; flex:none; border-radius:50%;
+    overflow:hidden; display:flex; align-items:center; justify-content:center;
+  }
+  .card-avatar img{width:100%; height:100%; object-fit:cover;}
+  .card-avatar-fallback{
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    color:#fff; font-family:'Fraunces',serif; font-weight:600; font-size:0.92rem;
+  }
+
+  .back-btn{margin-bottom:18px;}
+
+  /* ===== RESULTS ===== */
+  .results-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:16px; flex-wrap:wrap; gap:8px;
+  }
+  .results-head h2{font-size:1.3rem;}
+  .results-head .sub{color:var(--ink-soft); font-size:0.86rem;}
+
+  .cards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(270px,1fr));
+    gap:16px;
+  }
+  .student-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    box-shadow:var(--shadow-card);
+    overflow:hidden;
+    cursor:pointer;
+    display:flex;
+    transition:box-shadow .15s, transform .1s;
+  }
+  .student-card:hover{box-shadow:0 4px 22px rgba(22,51,90,0.14); transform:translateY(-1px);}
+  .card-bar{width:7px; flex:none;}
+  .card-body{padding:15px 17px; flex:1; min-width:0;}
+  .card-body h3{font-size:1.08rem; line-height:1.25;}
+  .card-meta{margin-top:6px; font-size:0.83rem; color:var(--ink-soft);}
+  .card-meta .grup-chip{
+    display:inline-block; margin-top:8px;
+    border:1px solid var(--purple);
+    color:var(--purple);
+    font-size:0.72rem; font-weight:600;
+    padding:2px 9px; border-radius:12px;
+  }
+  .card-meta .tutor-line{margin-top:5px; display:block;}
+
+  .empty-state{
+    text-align:center;
+    padding:56px 20px;
+    color:var(--ink-soft);
+    border:1.5px dashed var(--line);
+    border-radius:var(--radius-lg);
+    background:var(--paper-alt);
+  }
+  .empty-state h3{color:var(--navy); font-size:1.15rem; margin-bottom:8px;}
+
+  /* ===== MODAL (FITXA) ===== */
+  .overlay{
+    position:fixed; inset:0;
+    background:rgba(15,37,66,0.55);
+    display:none;
+    align-items:flex-start; justify-content:center;
+    padding:40px 18px;
+    overflow-y:auto;
+    z-index:100;
+  }
+  .overlay.show{display:flex;}
+  .fitxa{
+    background:var(--panel);
+    border-radius:var(--radius-lg);
+    max-width:660px; width:100%;
+    box-shadow:0 20px 60px rgba(0,0,0,0.35);
+    overflow:hidden;
+  }
+  .fitxa-head{
+    padding:26px 28px 22px;
+    color:#fff;
+    display:flex; gap:16px; align-items:center;
+  }
+  .fitxa-avatar{
+    width:58px; height:58px; border-radius:50%;
+    background:rgba(255,255,255,0.22);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-weight:600; font-size:1.3rem;
+    flex:none;
+  }
+  .fitxa-head h3{color:#fff; font-size:1.4rem;}
+  .fitxa-head .fitxa-sub{font-size:0.86rem; opacity:0.88; margin-top:4px;}
+  .fitxa-body{padding:22px 28px 8px;}
+  .fitxa-section{margin-bottom:20px;}
+  .fitxa-section h4{
+    font-size:0.86rem; text-transform:none;
+    color:var(--teal); font-family:'Fraunces',serif; font-weight:600;
+    margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--line-soft);
+  }
+  .fitxa-rows{display:grid; grid-template-columns:1fr 1fr; gap:10px 20px;}
+  .fitxa-row dt{font-size:0.72rem; color:var(--ink-soft); font-weight:600; margin-bottom:2px;}
+  .fitxa-row dd{margin:0; font-size:0.92rem;}
+  .fitxa-row.full{grid-column:1/-1;}
+  .fitxa-chips{display:flex; flex-wrap:wrap; gap:6px;}
+  .fitxa-chip{
+    background:var(--paper-alt); border:1px solid var(--line);
+    border-radius:14px; padding:4px 11px; font-size:0.78rem; color:var(--navy-deep);
+  }
+  .fitxa-note{
+    background:var(--paper-alt);
+    border-left:3px solid var(--gold-deep);
+    border-radius:0 8px 8px 0;
+    padding:11px 14px;
+    font-size:0.88rem;
+    white-space:pre-wrap;
+  }
+  .fitxa-actions{
+    display:flex; gap:10px; padding:18px 28px 26px;
+    border-top:1px solid var(--line-soft);
+    flex-wrap:wrap;
+  }
+
+  .confirm-box{
+    background:var(--danger-soft); border:1px solid var(--danger);
+    border-radius:var(--radius-md);
+    padding:16px 18px; margin:0 28px 20px;
+    display:none;
+  }
+  .confirm-box.show{display:block;}
+  .confirm-box p{margin:0 0 12px; font-size:0.9rem; color:var(--ink);}
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--navy-deep); color:#FBF8F0;
+    padding:12px 22px; border-radius:24px;
+    font-size:0.88rem; box-shadow:0 8px 24px rgba(0,0,0,0.25);
+    opacity:0; pointer-events:none;
+    transition:opacity .25s, transform .25s;
+    z-index:200;
+    display:flex; align-items:center; gap:9px;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .toast.err{background:var(--danger);}
+  .toast .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:none;}
+
+  /* ===== ARXIU ===== */
+  .archive-row{
+    margin-top:14px; padding-top:20px; border-top:1px solid var(--line-soft);
+    display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  }
+  .archive-row p{margin:0; color:var(--ink-soft); font-size:0.86rem; max-width:420px;}
+  .archive-create-row{display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-top:14px;}
+  .archive-create-row .field{flex:1; min-width:200px;}
+  .folder-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; margin-top:18px;}
+  .folder-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-md);
+    box-shadow:var(--shadow-card); padding:16px 18px; cursor:pointer;
+  }
+  .folder-card:hover{box-shadow:0 4px 22px rgba(22,51,90,0.14);}
+  .folder-card h3{font-size:1.02rem; display:flex; align-items:center; gap:8px;}
+  .folder-card .folder-meta{color:var(--ink-soft); font-size:0.8rem; margin-top:6px;}
+  .folder-card .folder-actions{margin-top:12px;}
+  .folder-card .folder-actions button{font-size:0.76rem; padding:6px 12px;}
+  .archive-detail-head{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px;}
+  .archived-badge{
+    display:inline-block; background:var(--paper-alt); border:1px solid var(--line);
+    color:var(--ink-soft); font-size:0.75rem; padding:3px 10px; border-radius:12px; margin-bottom:10px;
+  }
+
+  @media (max-width:640px){
+    .site-header{flex-wrap:wrap; padding:20px;}
+    .header-count{margin-left:0; text-align:left; padding-left:0; width:100%; display:flex; align-items:baseline; gap:8px;}
+    .fitxa-rows{grid-template-columns:1fr;}
+    .wrap{padding:22px 14px 60px;}
+    .panel{padding:20px 16px;}
+    .new-student-row{flex-direction:column; align-items:stretch;}
+  }
+
+  /* ===== LOGIN / USUARIS ===== */
+  .login-overlay{
+    position:fixed; inset:0; z-index:400; overflow-y:auto;
+    background:linear-gradient(135deg,var(--navy-deep) 0%,var(--navy) 62%,#1c4270 100%);
+    display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .login-box{
+    background:var(--panel); border-radius:var(--radius-lg); width:min(420px,100%);
+    padding:30px 28px 24px; box-shadow:0 20px 60px rgba(0,0,0,0.35);
+  }
+  .login-box .login-logo{width:64px;height:64px;background:#FCFAF4;border-radius:14px;padding:7px;margin-bottom:14px;border:1px solid var(--line-soft);}
+  .login-box h2{font-size:1.35rem;}
+  .login-box .login-sub{margin:4px 0 18px;color:var(--ink-soft);font-size:0.88rem;}
+  .login-box .field{margin-bottom:12px;}
+  .login-box .btn{width:100%;justify-content:center;margin-top:6px;}
+  .login-link{background:none;border:none;color:var(--teal);font-size:0.82rem;cursor:pointer;margin-top:12px;padding:4px;text-decoration:underline;width:100%;}
+  .login-error{background:var(--danger-soft);border:1px solid var(--danger);color:var(--danger);border-radius:8px;padding:9px 12px;font-size:0.84rem;margin:4px 0 8px;}
+  .login-notice{background:var(--paper-alt);border:1px solid var(--gold-deep);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:0.84rem;margin-bottom:12px;}
+  .field input[type="password"]{
+    border:1px solid var(--line); border-radius:var(--radius-sm); padding:9px 11px; font-size:0.92rem;
+    font-family:inherit; color:var(--ink); background:#FEFDFB;
+  }
+  .field input[type="password"]:focus{border-color:var(--teal);}
+  .user-pill{
+    position:relative; z-index:1; display:flex; align-items:center; gap:10px; flex:none;
+    background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25);
+    border-radius:24px; padding:6px 8px 6px 14px; font-size:0.82rem; color:#FBF8F0; margin-left:auto;
+  }
+  .user-pill .u-role{background:var(--gold);color:var(--navy-deep);border-radius:10px;padding:1px 8px;font-size:0.7rem;font-weight:700;}
+  .user-pill button{background:rgba(255,255,255,0.18);border:none;color:#fff;border-radius:16px;padding:5px 12px;font-size:0.76rem;cursor:pointer;font-weight:600;}
+  .user-pill + .header-count{margin-left:18px;}
+  .user-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--line-soft);border-radius:var(--radius-md);margin-top:10px;background:#FEFDFB;}
+  .user-row .u-main{flex:1;min-width:200px;}
+  .user-row .u-main strong{display:block;font-size:0.95rem;}
+  .user-row .u-main span{font-size:0.8rem;color:var(--ink-soft);}
+  .user-row .u-tag{font-size:0.72rem;font-weight:700;border-radius:10px;padding:2px 10px;background:var(--paper-alt);border:1px solid var(--line);}
+  .user-row .u-tag.admin{background:var(--gold);border-color:var(--gold-deep);}
+  .fitxa-audit{margin:6px 0 14px;font-size:0.76rem;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:10px;}
+  .contents-group{margin-top:6px;}
+  .contents-group > h4{font-family:'Fraunces',serif;font-size:0.95rem;color:var(--navy);margin:14px 0 8px;}
+  @media (max-width:640px){ .user-pill{margin-left:0;width:100%;justify-content:space-between;} .user-pill + .header-count{margin-left:0;} }
+
+  .promo-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;border:1px solid var(--line-soft);border-radius:var(--radius-md);margin-top:8px;background:#FEFDFB;}
+  .promo-row .p-name{flex:1;min-width:200px;}
+  .promo-row .p-name strong{display:block;font-size:0.92rem;}
+  .promo-row .p-name span{font-size:0.78rem;color:var(--ink-soft);}
+  .promo-row select{border:1px solid var(--line);border-radius:var(--radius-sm);padding:8px 10px;font-size:0.86rem;font-family:inherit;background:#fff;min-width:220px;}
+  .promo-box{background:var(--paper-alt);border:1px solid var(--line-soft);border-radius:var(--radius-md);padding:12px 16px;margin-top:14px;}
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="login-overlay hidden" id="loginOverlay">
+  <div class="login-box">
+    <img class="login-logo" id="loginLogo" alt="">
+    <h2>Atenció a la diversitat</h2>
+    <p class="login-sub">Escola Àngels Alemany i Boris</p>
+    <div class="login-notice hidden" id="loginNotice"></div>
+    <div class="field"><label for="lg-email">Correu electrònic</label><input type="email" id="lg-email" autocomplete="username" placeholder="nom@escola.cat"></div>
+    <div class="field"><label for="lg-pass">Contrasenya</label><input type="password" id="lg-pass" autocomplete="current-password"></div>
+    <div class="field hidden" id="lgPass2Row"><label for="lg-pass2">Repeteix la contrasenya</label><input type="password" id="lg-pass2" autocomplete="new-password"></div>
+    <div class="login-error hidden" id="loginError"></div>
+    <button class="btn btn-primary" id="btnLogin">Entra</button>
+    <button class="login-link" id="btnToggleMode">És la primera vegada? Crea el meu compte</button>
+    <button class="login-link" id="btnForgot">He oblidat la contrasenya</button>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="logo-badge"><img src="data:image/png;base64,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ICAgIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiCiAgICAgICAgICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgICAgICAgICAgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIKICAgICAgICAgICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iPgogICAgICAgICA8eG1wOkNyZWF0b3JUb29sPkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpPC94bXA6Q3JlYXRvclRvb2w+CiAgICAgICAgIDx4bXA6Q3JlYXRlRGF0ZT4yMDIwLTA4LTE0VDExOjM4OjU3KzAyOjAwPC94bXA6Q3JlYXRlRGF0ZT4KICAgICAgICAgPHhtcDpNZXRhZGF0YURhdGU+MjAyMC0wOC0xNFQxMTozODo1NyswMjowMDwveG1wOk1ldGFkYXRhRGF0ZT4KICAgICAgICAgPHhtcDpNb2RpZnlEYXRlPjIwMjAtMDgtMTRUMTE6Mzg6NTcrMDI6MDA8L3htcDpNb2RpZnlEYXRlPgogICAgICAgICA8eG1wTU06SW5zdGFuY2VJRD54bXAuaWlkOmQxZWMzYTQzLTlkODYtNGQ4Ny1iZmQ0LWU2YmQzNDMxNjMzNDwveG1wTU06SW5zdGFuY2VJRD4KICAgICAgICAgPHhtcE1NOkRvY3VtZW50SUQ+YWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjFjNDhmNGM2LTFkYmItMTE3ZS05NzdkLThmNjVkMGViNzBlODwveG1wTU06RG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD54bXAuZGlkOjljY2Q1OWE5LWJhNDQtNGIxZC1hMjdmLTI3NzY3NzdjZmVjMjwveG1wTU06T3JpZ2luYWxEb2N1bWVudElEPgogICAgICAgICA8eG1wTU06SGlzdG9yeT4KICAgICAgICAgICAgPHJkZjpTZXE+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPmNyZWF0ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDo5Y2NkNTlhOS1iYTQ0LTRiMWQtYTI3Zi0yNzc2Nzc3Y2ZlYzI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMjAtMDgtMTRUMTE6Mzg6NTcrMDI6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDpkMWVjM2E0My05ZDg2LTRkODctYmZkNC1lNmJkMzQzMTYzMzQ8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMjAtMDgtMTRUMTE6Mzg6NTcrMDI6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICAgICA8c3RFdnQ6Y2hhbmdlZD4vPC9zdEV2dDpjaGFuZ2VkPgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6U2VxPgogICAgICAgICA8L3htcE1NOkhpc3Rvcnk+CiAgICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2UvcG5nPC9kYzpmb3JtYXQ+CiAgICAgICAgIDxwaG90b3Nob3A6Q29sb3JNb2RlPjM8L3Bob3Rvc2hvcDpDb2xvck1vZGU+CiAgICAgICAgIDxwaG90b3Nob3A6SUNDUHJvZmlsZT5EaXNwbGF5PC9waG90b3Nob3A6SUNDUHJvZmlsZT4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzIwMDAwLzEwMDAwPC90aWZmOlhSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjAwMDAvMTAwMDA8L3RpZmY6WVJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDxleGlmOkNvbG9yU3BhY2U+NjU1MzU8L2V4aWY6Q29sb3JTcGFjZT4KICAgICAgICAgPGV4aWY6UGl4ZWxYRGltZW5zaW9uPjUxMjwvZXhpZjpQaXhlbFhEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWURpbWVuc2lvbj41MTI8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg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" alt="Logotip Escola Àngels Alemany i Boris"></div>
+  <div class="header-text">
+    <h1>Escola Àngels Alemany i Boris</h1>
+    <p>Atenció a la diversitat</p>
+  </div>
+  <div class="user-pill hidden" id="userPill">
+    <span id="userName"></span><span class="u-role" id="userRole"></span>
+    <button type="button" id="btnLogout">Surt</button>
+  </div>
+  <div class="header-count">
+    <span class="num" id="headerCount">0</span>
+    <span class="lbl">alumnes registrats</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ PÀGINA 1: CERCA ============ -->
+  <div class="view" id="viewHome">
+
+    <section class="panel">
+      <div class="panel-head"><h2>Cerca alumnat</h2></div>
+      <p class="panel-help">Cerca per nom, cognoms o curs. Deixa els camps buits per veure tot l'alumnat de l'aula d'acollida.</p>
+
+      <div class="field-grid search-grid">
+        <div class="field"><label for="s-nom">Nom</label><input type="text" id="s-nom" placeholder="p. ex. Amina"></div>
+        <div class="field"><label for="s-cognoms">Cognoms</label><input type="text" id="s-cognoms" placeholder="p. ex. El Amrani"></div>
+        <div class="field"><label for="s-curs">Curs</label>
+          <select id="s-curs">
+            <option value="">Tots els cursos</option>
+            <option value="I3">I3</option>
+            <option value="I4">I4</option>
+            <option value="I5">I5</option>
+            <option value="1r">1r</option>
+            <option value="2n">2n</option>
+            <option value="3r">3r</option>
+            <option value="4t">4t</option>
+            <option value="5è">5è</option>
+            <option value="6è">6è</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn btn-cerca" id="btnCercaSimple">Cerca</button>
+        <button class="btn btn-ghost" id="btnNetejarCerca">Netejar cerca</button>
+      </div>
+
+      <div class="new-student-row">
+        <p>Vols donar d'alta un alumne nou a l'aula d'acollida amb totes les seves dades?</p>
+        <button class="btn btn-add-student" id="btnNouAlumne">Nou alumne</button>
+      </div>
+
+      <div class="archive-row">
+        <p>Consulta els expedients d'alumnat de cursos anteriors, arxivats per no barrejar-los amb el curs actual.</p>
+        <button class="btn btn-ghost" id="btnObreArxiu">Arxiu de cursos</button>
+      </div>
+
+      <div class="archive-row hidden" id="usersRow">
+        <p>Afegeix o treu les mestres que poden accedir a la base de dades i assigna'ls el rol.</p>
+        <button class="btn btn-ghost" id="btnObreUsuaris">Gestió d'usuaris</button>
+      </div>
+
+      <div class="archive-row hidden" id="promoRow">
+        <p>Passa l'alumnat al curs següent sense tornar a introduir les dades (es desa abans una còpia a l'arxiu).</p>
+        <button class="btn btn-ghost" id="btnObrePromo">Canvi de curs</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="results-head">
+        <h2>Alumnat</h2>
+        <span class="sub" id="resultsSub">Carregant dades…</span>
+      </div>
+      <div style="margin:-6px 0 16px;"><button type="button" class="btn btn-ghost" id="btnExportAllPdf">Exporta aquest llistat a PDF</button></div>
+      <div id="resultsArea"></div>
+    </section>
+
+  </div>
+
+  <!-- ============ PÀGINA 2: FITXA D'ALUMNE (NOU / EDICIÓ) ============ -->
+  <div class="view hidden" id="viewForm">
+
+    <button class="btn btn-ghost back-btn" id="btnBackToSearch">Torna a la cerca</button>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2 id="formTitle">Nou alumne</h2>
+        <span class="edit-flag" id="editFlag">Editant fitxa existent</span>
+      </div>
+      <p class="panel-help">Completa les dades de l'alumne. Els camps marcats amb <span style="color:var(--danger);">*</span> són obligatoris.</p>
+
+      <div class="photo-upload-row">
+        <div class="photo-preview" id="photoPreview">
+          <span id="photoPlaceholder">Sense foto</span>
+          <img id="photoImg" alt="Fotografia de l'alumne" style="display:none;">
+        </div>
+        <div class="photo-upload-actions">
+          <label class="btn btn-ghost" for="f-foto" id="btnPujaFoto">Puja una fotografia</label>
+          <input type="file" id="f-foto" accept="image/png, image/jpeg, image/webp" style="display:none;">
+          <button type="button" class="btn btn-ghost" id="btnRemovePhoto">Elimina la foto</button>
+          <p class="photo-hint">Format JPG, PNG o WEBP. La imatge es redimensiona automàticament.</p>
+        </div>
+      </div>
+
+      <div class="section-title">Dades bàsiques</div>
+      <div class="field-grid">
+        <div class="field"><label for="f-nom">Nom <span class="req">*</span></label><input type="text" id="f-nom" placeholder="p. ex. Amina"></div>
+        <div class="field"><label for="f-cognoms">Cognoms <span class="req">*</span></label><input type="text" id="f-cognoms" placeholder="p. ex. El Amrani"></div>
+        <div class="field"><label for="f-curs">Curs <span class="req">*</span></label>
+          <select id="f-curs">
+            <option value="">— Selecciona —</option>
+            <option value="I3">I3</option>
+            <option value="I4">I4</option>
+            <option value="I5">I5</option>
+            <option value="1r">1r</option>
+            <option value="2n">2n</option>
+            <option value="3r">3r</option>
+            <option value="4t">4t</option>
+            <option value="5è">5è</option>
+            <option value="6è">6è</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-grup">Grup <span class="req">*</span></label>
+          <select id="f-grup">
+            <option value="">— Selecciona —</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-tutor">Tutor/a</label><input type="text" id="f-tutor" placeholder="Nom del tutor o tutora"></div>
+      </div>
+
+      <div class="section-title">Sessions d'avaluació</div>
+      <div class="eval-tabs" id="evalTabs" role="tablist"></div>
+      <div class="eval-panel">
+        <div class="field wide">
+          <label for="eval-text" id="evalLabel">Nova anotació</label>
+          <textarea id="eval-text" placeholder="Escriu aquí l'anotació d'aquesta sessió d'avaluació..."></textarea>
+        </div>
+        <div style="margin-top:12px;"><button type="button" class="btn btn-cerca" id="btnAddEval">Afegir i desar anotació</button></div>
+        <div id="evalList"></div>
+      </div>
+
+      <div class="section-title">Continguts treballats</div>
+      <div class="contents-group">
+        <h4>Matemàtiques</h4>
+        <div class="field-grid contents-grid">
+          <div class="field"><label for="cm-t1">1r trimestre</label><textarea id="cm-t1" placeholder="Continguts de matemàtiques del 1r trimestre..."></textarea></div>
+          <div class="field"><label for="cm-t2">2n trimestre</label><textarea id="cm-t2" placeholder="Continguts de matemàtiques del 2n trimestre..."></textarea></div>
+          <div class="field"><label for="cm-t3">3r trimestre</label><textarea id="cm-t3" placeholder="Continguts de matemàtiques del 3r trimestre..."></textarea></div>
+        </div>
+      </div>
+      <div class="contents-group">
+        <h4>Català</h4>
+        <div class="field-grid contents-grid">
+          <div class="field"><label for="cc-t1">1r trimestre</label><textarea id="cc-t1" placeholder="Continguts de català del 1r trimestre..."></textarea></div>
+          <div class="field"><label for="cc-t2">2n trimestre</label><textarea id="cc-t2" placeholder="Continguts de català del 2n trimestre..."></textarea></div>
+          <div class="field"><label for="cc-t3">3r trimestre</label><textarea id="cc-t3" placeholder="Continguts de català del 3r trimestre..."></textarea></div>
+        </div>
+      </div>
+      <div style="margin-top:12px;"><button type="button" class="btn btn-ghost" id="btnSaveContinguts">Desar continguts</button></div>
+
+      <div class="section-title">Dades personals i de contacte</div>
+      <div class="field-grid">
+        <div class="field"><label for="f-dataNaixement">Data de naixement</label><input type="date" id="f-dataNaixement"></div>
+        <div class="field"><label for="f-llocNaixement">Lloc de naixement</label><select id="f-llocNaixement"><option value="">— Selecciona un país —</option></select></div>
+        <div class="field wide"><label for="f-adreca">Adreça</label><input type="text" id="f-adreca" placeholder="Carrer, número, pis, municipi"></div>
+        <div class="field"><label for="f-correu">Correu electrònic</label><input type="email" id="f-correu" placeholder="familia@exemple.cat"></div>
+        <div class="field"><label for="f-telefon">Telèfon</label><input type="tel" id="f-telefon" placeholder="600 000 000"></div>
+      </div>
+
+      <div class="section-title">Dades lingüístiques</div>
+      <div class="field-grid">
+        <div class="field"><label for="f-llenguaUs">Llengua d'ús habitual</label><input type="text" id="f-llenguaUs" placeholder="p. ex. amazic, urdú..."></div>
+        <div class="field"><label for="f-altresLlengues">Altres llengües que coneix</label><input type="text" id="f-altresLlengues" placeholder="p. ex. francès, àrab..."></div>
+      </div>
+
+      <div class="section-title">Escolarització</div>
+      <div class="field-grid">
+        <div class="field"><label for="f-dataArribadaCat">Data d'arribada a Catalunya</label><input type="date" id="f-dataArribadaCat"></div>
+        <div class="field"><label for="f-dataIncorpSistema">Data d'incorporació al sistema educatiu català</label><input type="date" id="f-dataIncorpSistema"></div>
+        <div class="field"><label for="f-dataIncorpCentre">Data d'incorporació al centre actual</label><input type="date" id="f-dataIncorpCentre"></div>
+        <div class="field wide"><label for="f-centresAnteriors">Centres on ha estat matriculat anteriorment</label><input type="text" id="f-centresAnteriors" placeholder="Noms dels centres i països"></div>
+        <div class="field"><label for="f-escolaritzacioPrevia">Escolarització prèvia</label>
+          <select id="f-escolaritzacioPrevia">
+            <option value="">— Selecciona —</option>
+            <option value="Regular">Regular</option>
+            <option value="Irregular">Irregular</option>
+            <option value="Sense escolaritzar">Sense escolaritzar</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-repeticions">Repeticions de curs</label><input type="text" id="f-repeticions" placeholder="p. ex. Cap, o 4t curs..."></div>
+      </div>
+
+      <div class="section-title">Pla de Suport Individualitzat (PSI)</div>
+      <div class="field wide">
+        <label>Àrees per a les quals s'elabora el PSI</label>
+        <div class="pi-grid" id="piGrid"></div>
+      </div>
+
+      <div class="field wide" style="margin-top:18px;">
+        <label>Tipus de PSI</label>
+        <div class="pi-grid" id="tipusPsiGrid"></div>
+      </div>
+      <div class="field-grid" id="psiDatesGrid" style="margin-top:4px;">
+        <div class="field" id="fieldPsiDataCurricular" style="display:none;">
+          <label for="f-psiDataCurricular">Data de creació del primer PSI curricular</label>
+          <input type="date" id="f-psiDataCurricular">
+        </div>
+        <div class="field" id="fieldPsiDataArribada" style="display:none;">
+          <label for="f-psiDataArribadaCentre">Data d'arribada al centre</label>
+          <input type="date" id="f-psiDataArribadaCentre">
+        </div>
+      </div>
+
+      <div class="field wide" style="margin-top:18px;">
+        <label>Té diagnòstic?</label>
+        <div class="pi-grid radio-grid" id="diagnosticGrid"></div>
+      </div>
+
+      <div class="field wide" style="margin-top:18px;">
+        <label>Tipus de necessitats educatives</label>
+        <div class="pi-grid" id="necessitatsGrid"></div>
+      </div>
+      <div class="field wide" id="fieldNecessitatsAltres" style="display:none; margin-top:10px;">
+        <label for="f-necessitatsAltres">Especifica «Altres»</label>
+        <input type="text" id="f-necessitatsAltres" placeholder="Descriu el tipus de necessitat">
+      </div>
+
+      <div class="section-title">Altres informacions d'interès</div>
+      <div class="field wide">
+        <textarea id="f-altresInfo" placeholder="Observacions, necessitats de suport, context familiar..."></textarea>
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn btn-primary" id="btnDesar">Afegir alumne</button>
+        <button class="btn btn-ghost" id="btnCancelForm">Cancel·la</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============ PÀGINA: CANVI DE CURS ============ -->
+  <div class="view hidden" id="viewPromote">
+    <button class="btn btn-ghost back-btn" id="btnBackFromPromote">Torna a la cerca</button>
+    <section class="panel">
+      <div class="panel-head"><h2>Canvi de curs</h2></div>
+      <p class="panel-help">Passa l'alumnat al curs següent conservant totes les dades personals, del PSI i de contacte. Abans de res es desa una còpia completa del curs actual a l'arxiu, i podràs decidir alumne per alumne si passa de curs, repeteix o surt.</p>
+      <div class="field-grid" style="margin-top:16px;">
+        <div class="field wide"><label for="promoArchiveName">Nom de la carpeta d'arxiu del curs que acaba</label><input type="text" id="promoArchiveName" placeholder="p. ex. Curs 26/27"></div>
+      </div>
+      <div class="promo-box">
+        <label class="pi-item" for="promoReset"><input type="checkbox" id="promoReset" checked> <span>Esborra les anotacions d'avaluació i els continguts treballats per començar el curs nou (queden desats a l'arxiu)</span></label>
+      </div>
+      <div id="promoList"></div>
+      <div class="panel-actions">
+        <button class="btn btn-primary" id="btnApplyPromo">Arxiva i aplica el canvi de curs</button>
+        <button class="btn btn-ghost" id="btnCancelPromo">Cancel·la</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ PÀGINA: GESTIÓ D'USUARIS ============ -->
+  <div class="view hidden" id="viewUsers">
+    <button class="btn btn-ghost back-btn" id="btnBackFromUsers">Torna a la cerca</button>
+    <section class="panel">
+      <div class="panel-head"><h2>Gestió d'usuaris</h2></div>
+      <p class="panel-help">Només els correus d'aquesta llista poden accedir a la base de dades. Cada mestra crea ella mateixa la seva contrasenya amb el botó «Crea el meu compte» de la pantalla d'entrada, fent servir el correu que li hagis donat d'alta aquí.</p>
+      <div class="field-grid" style="margin-top:16px;">
+        <div class="field"><label for="u-email">Correu electrònic</label><input type="email" id="u-email" placeholder="mestra@escola.cat"></div>
+        <div class="field"><label for="u-nom">Nom</label><input type="text" id="u-nom" placeholder="Nom i cognoms"></div>
+        <div class="field"><label for="u-carrec">Càrrec</label>
+          <select id="u-carrec">
+            <option value="Mestre d'aula d'acollida">Mestre d'aula d'acollida</option>
+            <option value="Mestra de PT de cicle inicial">Mestra de PT de cicle inicial</option>
+            <option value="Mestra de PT de cicle mitjà">Mestra de PT de cicle mitjà</option>
+            <option value="Mestra de PT de cicle superior">Mestra de PT de cicle superior</option>
+            <option value="Altres">Altres</option>
+          </select>
+        </div>
+        <div class="field"><label for="u-rol">Rol</label>
+          <select id="u-rol">
+            <option value="editor">Mestre editor de continguts</option>
+            <option value="admin">Administrador/a</option>
+          </select>
+        </div>
+      </div>
+      <div class="panel-actions"><button class="btn btn-primary" id="btnAddUser">Afegeix usuari</button></div>
+      <div id="usersListArea"></div>
+    </section>
+  </div>
+
+  <!-- ============ PÀGINA 3: ARXIU DE CURSOS ============ -->
+  <div class="view hidden" id="viewArchive">
+
+    <button class="btn btn-ghost back-btn" id="btnBackFromArchive">Torna a la cerca</button>
+
+    <section class="panel" id="archiveListPanel">
+      <div class="panel-head"><h2>Arxiu de cursos</h2></div>
+      <p class="panel-help">Desa una còpia de l'alumnat actual en una carpeta d'arxiu (per exemple «Curs 26/27») per poder-la consultar el curs vinent sense que interfereixi amb el llistat actiu.</p>
+
+      <div class="archive-create-row" id="archiveCreateRow">
+        <div class="field">
+          <label for="archiveNameInput">Nom de la carpeta</label>
+          <input type="text" id="archiveNameInput" placeholder="p. ex. Curs 26/27">
+        </div>
+        <button class="btn btn-cerca" id="btnCreateArchive">Crear arxiu amb l'alumnat actual</button>
+      </div>
+
+      <div id="folderListArea"></div>
+    </section>
+
+    <section class="panel hidden" id="archiveDetailPanel">
+      <button class="btn btn-ghost back-btn" id="btnBackToFolders">Torna a les carpetes</button>
+      <div class="archive-detail-head">
+        <h2 id="archiveDetailTitle">Carpeta</h2>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-ghost" id="btnExportArchivePdf">Exporta la carpeta a PDF</button>
+          <button class="btn btn-ghost" id="btnDeleteArchive">Elimina aquesta carpeta</button>
+        </div>
+      </div>
+      <div id="archiveStudentsArea"></div>
+    </section>
+
+  </div>
+
+</div>
+
+<!-- ===== FITXA MODAL (VISUALITZACIÓ) ===== -->
+<div class="overlay" id="overlay">
+  <div class="fitxa" id="fitxaCard"></div>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, onSnapshot, runTransaction, writeBatch } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+// ============================================================
+//  CONFIGURACIÓ DE FIREBASE: enganxa aquí les dades del teu projecte
+//  (Firebase > Configuració del projecte > Les teves aplicacions > Web)
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyCoEQBQORHmvIzYiBVmugWXhYAur8Qg3sY",
+  authDomain: "atencio-a-la-diversitat.firebaseapp.com",
+  projectId: "atencio-a-la-diversitat",
+  storageBucket: "atencio-a-la-diversitat.firebasestorage.app",
+  messagingSenderId: "840447657257",
+  appId: "1:840447657257:web:e61fbf3d3fdddb50822338"
+};
+
+(function(){
+
+  // ---------- DADES DE SUPORT ----------
+  var COUNTRIES = ["Afganistan","Albània","Algèria","Alemanya","Andorra","Angola","Aràbia Saudita","Argentina","Armènia","Austràlia","Àustria","Azerbaidjan","Bahames","Bahrain","Bangladesh","Barbados","Bèlgica","Belize","Benín","Bhutan","Bielorússia","Birmània (Myanmar)","Bolívia","Bòsnia i Hercegovina","Botswana","Brasil","Brunei","Bulgària","Burkina Faso","Burundi","Cambodja","Camerun","Canadà","Txad","Xile","Xina","Xipre","Colòmbia","Comores","Congo","República Democràtica del Congo","Corea del Nord","Corea del Sud","Costa d'Ivori","Costa Rica","Croàcia","Cuba","Dinamarca","Djibouti","Dominica","Egipte","El Salvador","Emirats Àrabs Units","Equador","Eritrea","Eslovàquia","Eslovènia","Espanya","Estats Units","Estònia","Etiòpia","Fiji","Filipines","Finlàndia","França","Gabon","Gàmbia","Geòrgia","Ghana","Grècia","Grenada","Guatemala","Guinea","Guinea Bissau","Guinea Equatorial","Guyana","Haití","Hondures","Hongria","Índia","Indonèsia","Iran","Iraq","Irlanda","Islàndia","Israel","Itàlia","Jamaica","Japó","Jordània","Kazakhstan","Kenya","Kirguizistan","Kiribati","Kosovo","Kuwait","Laos","Lesotho","Letònia","Líban","Libèria","Líbia","Liechtenstein","Lituània","Luxemburg","Macedònia del Nord","Madagascar","Malàisia","Malawi","Maldives","Mali","Malta","Marroc","Illes Marshall","Mauritània","Maurici","Mèxic","Micronèsia","Moldàvia","Mònaco","Mongòlia","Montenegro","Moçambic","Namíbia","Nauru","Nepal","Nicaragua","Níger","Nigèria","Noruega","Nova Zelanda","Oman","Països Baixos","Pakistan","Palau","Palestina","Panamà","Papua Nova Guinea","Paraguai","Perú","Polònia","Portugal","Qatar","Regne Unit","República Centreafricana","República Dominicana","República Txeca","Romania","Ruanda","Rússia","Saint Kitts i Nevis","Saint Vincent i les Grenadines","Salomó","Samoa","San Marino","Santa Llúcia","Sao Tomé i Príncipe","Senegal","Sèrbia","Seychelles","Sierra Leone","Singapur","Síria","Somàlia","Sri Lanka","Eswatini (Swazilàndia)","Sud-àfrica","Sudan","Sudan del Sud","Suècia","Suïssa","Surinam","Tailàndia","Taiwan","Tanzània","Tadjikistan","Timor Oriental","Togo","Tonga","Trinitat i Tobago","Tunísia","Turkmenistan","Turquia","Tuvalu","Ucraïna","Uganda","Uruguai","Uzbekistan","Vanuatu","Vaticà","Veneçuela","Vietnam","Iemen","Zàmbia","Zimbabwe"];
+  COUNTRIES.sort(function(a,b){return a.localeCompare(b,'ca');});
+
+  var PI_AREAS = ["Llengua Catalana i Literatura","Llengua Castellana i Literatura","Llengua estrangera","Educació en valors cívics i ètics","Matemàtiques","Coneixement del medi natural, social i cultural","Educació artística","Educació Física"];
+
+  var TIPUS_PSI = [
+    {value:"Curricular", needsField:"fieldPsiDataCurricular"},
+    {value:"Aula d'acollida", needsField:"fieldPsiDataArribada"},
+    {value:"Metodològic", needsField:null}
+  ];
+  var NECESSITATS = ["TEA","Discapacitat: 33 %","Trastorn d'aprenentatge: TDA, TDAH, TDL, Dislèxia…","Alteracions greus de conducta","Altes capacitats","Malaltia","Alumnat nouvingut","Altres"];
+
+  var CURS_ORDER = ["I3","I4","I5","1r","2n","3r","4t","5è","6è"];
+  var CURS_BASE = {
+    "I3":"#7C5AA0", "I4":"#5E5091", "I5":"#3F5580",
+    "1r":"#16335A", "2n":"#12547A",
+    "3r":"#0E8AA6", "4t":"#3B9993",
+    "5è":"#4F8F80", "6è":"#B79A45"
+  };
+  function shade(hex, pct){
+    var f = parseInt(hex.slice(1),16), t = pct<0?0:255, p = pct<0?-pct:pct;
+    var R=f>>16, G=(f>>8)&0x00FF, B=f&0x0000FF;
+    return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+  }
+  var CURS_COLOR = {}, CURS_BG = {};
+  CURS_ORDER.forEach(function(c){
+    var base = CURS_BASE[c];
+    CURS_COLOR[c] = base;
+    CURS_BG[c] = 'linear-gradient(135deg,'+shade(base,-0.32)+','+base+')';
+  });
+
+  var STORAGE_KEY = "aula-acollida-alumnes";
+
+  var students = [];
+  var editingId = null;
+  var currentPhotoData = null;
+  var lastRenderedList = [];
+  var editBase = null;
+  var currentUser = null;
+  var unsubStudents = null;
+  var registerMode = false;
+
+  // ---------- UTILITATS ----------
+  function $(id){ return document.getElementById(id); }
+  function esc(s){
+    if(s===undefined || s===null) return "";
+    var d=document.createElement('div'); d.textContent=String(s); return d.innerHTML;
+  }
+  function fmtDate(iso){
+    if(!iso) return "—";
+    var p = iso.split("-");
+    if(p.length!==3) return iso;
+    return p[2]+"/"+p[1]+"/"+p[0];
+  }
+  function initials(nom,cognoms){
+    var a = (nom||"").trim().charAt(0);
+    var b = (cognoms||"").trim().charAt(0);
+    return (a+b).toUpperCase() || "?";
+  }
+  function showToast(msg, isErr){
+    var t = $('toast');
+    $('toastMsg').textContent = msg;
+    t.classList.toggle('err', !!isErr);
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function(){ t.classList.remove('show'); }, 2800);
+  }
+
+  // ---------- NAVEGACIÓ ENTRE PÀGINES ----------
+  function showView(name){
+    $('viewHome').classList.toggle('hidden', name !== 'home');
+    $('viewForm').classList.toggle('hidden', name !== 'form');
+    $('viewArchive').classList.toggle('hidden', name !== 'archive');
+    $('viewUsers').classList.toggle('hidden', name !== 'users');
+    $('viewPromote').classList.toggle('hidden', name !== 'promote');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  // ---------- FIREBASE: SESSIÓ, DADES COMPARTIDES ----------
+  var CONFIGURED = firebaseConfig.apiKey && firebaseConfig.apiKey.indexOf('PASTE') !== 0;
+  var auth = null, db = null;
+
+  function isAdmin(){ return !!currentUser && currentUser.rol === 'admin'; }
+  function userLabel(){ return currentUser ? (currentUser.nom || currentUser.email) : ''; }
+
+  function normTxt(s){
+    return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+  function studentKey(nom, cognoms, dataN){
+    var k = normTxt(nom).replace(/ /g, '-') + '_' + normTxt(cognoms).replace(/ /g, '-');
+    if(dataN) k += '_' + dataN;
+    return k;
+  }
+  function findDuplicate(v){
+    var n = normTxt(v.nom), c = normTxt(v.cognoms);
+    return students.find(function(s){
+      if(normTxt(s.nom) !== n || normTxt(s.cognoms) !== c) return false;
+      if(s.dataNaixement && v.dataNaixement && s.dataNaixement !== v.dataNaixement) return false;
+      return true;
+    }) || null;
+  }
+  function stripForSave(s){
+    var o = JSON.parse(JSON.stringify(s));
+    delete o.id;
+    return o;
+  }
+  function sameVal(a, b){
+    return JSON.stringify(a === undefined ? null : a) === JSON.stringify(b === undefined ? null : b);
+  }
+  function idsOf(list){ return (list || []).map(function(x){ return x.id; }); }
+
+  function mergeEval(server, local, base){
+    var res = {};
+    ['a1','a2','a3','final'].forEach(function(t){
+      var s = (server && server[t]) || [], l = (local && local[t]) || [], b = (base && base[t]) || [];
+      var sIds = idsOf(s), lIds = idsOf(l), bIds = idsOf(b);
+      var deleted = bIds.filter(function(id){ return lIds.indexOf(id) < 0; });
+      var out = s.filter(function(x){ return deleted.indexOf(x.id) < 0; });
+      l.forEach(function(x){ if(sIds.indexOf(x.id) < 0 && bIds.indexOf(x.id) < 0) out.push(x); });
+      out.sort(function(a, b){ return String(a.date).localeCompare(String(b.date)); });
+      res[t] = out;
+    });
+    return res;
+  }
+  function mergeCont(server, local, base){
+    var res = {};
+    ['mates','catala'].forEach(function(g){
+      res[g] = {};
+      ['t1','t2','t3'].forEach(function(t){
+        var sv = server && server[g] && server[g][t] || '';
+        var lv = local && local[g] && local[g][t] || '';
+        var bv = base && base[g] && base[g][t] || '';
+        res[g][t] = (lv !== bv) ? lv : sv;
+      });
+    });
+    return res;
+  }
+
+  function fbErrorMsg(e){
+    var m = (e && e.message) || '';
+    var c = (e && e.code) || '';
+    if(m === 'EXISTS') return "Aquest alumne ja existeix (potser l'acaba d'afegir una altra mestra). Cerca'l i edita'l.";
+    if(m === 'GONE') return "Aquest alumne ja no existeix a la base de dades.";
+    if(c === 'permission-denied') return "No tens permís per fer aquesta acció.";
+    if(c === 'unavailable' || c === 'failed-precondition') return "Sense connexió amb la base de dades. Torna-ho a provar.";
+    return "Error en desar les dades. Torna-ho a provar.";
+  }
+
+  async function createStudent(v){
+    var key = studentKey(v.nom, v.cognoms, v.dataNaixement);
+    var ref = doc(db, 'alumnes', key);
+    var data = stripForSave(v);
+    var now = new Date().toISOString();
+    data.creatPer = userLabel(); data.creatEmail = currentUser.email; data.creatData = now;
+    data.modificatPer = data.creatPer; data.modificatData = now;
+    await runTransaction(db, async function(tx){
+      var snap = await tx.get(ref);
+      if(snap.exists()) throw new Error('EXISTS');
+      tx.set(ref, data);
+    });
+    return key;
+  }
+
+  var SCALAR_KEYS = FIELD_IDS_LIST().concat(['areesPI','tipusPsi','necessitats','teDiagnostic','photoData']);
+  function FIELD_IDS_LIST(){
+    return ["nom","cognoms","curs","grup","tutor","dataNaixement","llocNaixement","adreca","correu","telefon","llenguaUs","altresLlengues","dataArribadaCat","dataIncorpSistema","dataIncorpCentre","centresAnteriors","escolaritzacioPrevia","repeticions","altresInfo","psiDataCurricular","psiDataArribadaCentre","necessitatsAltres"];
+  }
+
+  async function saveEdit(id, local, keys){
+    var ref = doc(db, 'alumnes', id);
+    var base = editBase || {};
+    var out = await runTransaction(db, async function(tx){
+      var snap = await tx.get(ref);
+      if(!snap.exists()) throw new Error('GONE');
+      var cur = snap.data();
+      var res = Object.assign({}, cur);
+      var consider = keys || SCALAR_KEYS.concat(['avaluacions','continguts']);
+      consider.forEach(function(k){
+        if(k === 'avaluacions') res.avaluacions = mergeEval(cur.avaluacions, local.avaluacions, base.avaluacions);
+        else if(k === 'continguts') res.continguts = mergeCont(cur.continguts, local.continguts, base.continguts);
+        else if(!sameVal(local[k], base[k])) res[k] = local[k];
+      });
+      res.modificatPer = userLabel(); res.modificatEmail = currentUser.email; res.modificatData = new Date().toISOString();
+      tx.set(ref, res);
+      return res;
+    });
+    out.id = id;
+    editBase = JSON.parse(JSON.stringify(out));
+    return out;
+  }
+
+  function startStudentsListener(){
+    if(unsubStudents) unsubStudents();
+    unsubStudents = onSnapshot(collection(db, 'alumnes'), function(snap){
+      students = snap.docs.map(function(d){ var o = d.data(); o.id = d.id; return o; });
+      updateHeaderCount();
+      runSearch();
+    }, function(err){
+      showToast(fbErrorMsg(err), true);
+    });
+  }
+
+  // ---------- INICI DE SESSIÓ ----------
+  function loginMsg(msg, isNotice){
+    var e = $('loginError'), n = $('loginNotice');
+    if(isNotice){ n.textContent = msg; n.classList.toggle('hidden', !msg); e.classList.add('hidden'); }
+    else { e.textContent = msg; e.classList.toggle('hidden', !msg); }
+  }
+  function authErrorMsg(e){
+    var c = (e && e.code) || '';
+    if(c === 'auth/invalid-credential' || c === 'auth/wrong-password' || c === 'auth/user-not-found') return "Correu o contrasenya incorrectes.";
+    if(c === 'auth/email-already-in-use') return "Aquest correu ja té un compte. Prem «Entra».";
+    if(c === 'auth/weak-password') return "La contrasenya ha de tenir almenys 6 caràcters.";
+    if(c === 'auth/invalid-email') return "El correu no és vàlid.";
+    if(c === 'auth/too-many-requests') return "Massa intents. Espera uns minuts i torna-ho a provar.";
+    if(c === 'auth/network-request-failed') return "Sense connexió a internet.";
+    return "No s'ha pogut iniciar la sessió.";
+  }
+  function setRegisterMode(on){
+    registerMode = on;
+    $('lgPass2Row').classList.toggle('hidden', !on);
+    $('btnLogin').textContent = on ? "Crea el meu compte" : "Entra";
+    $('btnToggleMode').textContent = on ? "Ja tinc compte. Vull entrar" : "És la primera vegada? Crea el meu compte";
+    $('lg-pass').setAttribute('autocomplete', on ? 'new-password' : 'current-password');
+    loginMsg('');
+  }
+  async function handleLogin(){
+    var email = $('lg-email').value.trim().toLowerCase();
+    var pass = $('lg-pass').value;
+    if(!email || !pass){ loginMsg("Escriu el correu i la contrasenya."); return; }
+    $('btnLogin').disabled = true;
+    try{
+      if(registerMode){
+        if(pass !== $('lg-pass2').value){ loginMsg("Les dues contrasenyes no coincideixen."); return; }
+        await createUserWithEmailAndPassword(auth, email, pass);
+      } else {
+        await signInWithEmailAndPassword(auth, email, pass);
+      }
+    }catch(e){
+      loginMsg(authErrorMsg(e));
+    }finally{
+      $('btnLogin').disabled = false;
+    }
+  }
+  async function handleForgot(){
+    var email = $('lg-email').value.trim().toLowerCase();
+    if(!email){ loginMsg("Escriu primer el teu correu i després prem «He oblidat la contrasenya»."); return; }
+    try{
+      await sendPasswordResetEmail(auth, email);
+      loginMsg("T'hem enviat un correu per canviar la contrasenya (mira també el correu brossa).", true);
+    }catch(e){
+      loginMsg(authErrorMsg(e));
+    }
+  }
+  function showLogin(){
+    $('loginOverlay').classList.remove('hidden');
+    $('userPill').classList.add('hidden');
+  }
+  function updateUserUI(){
+    $('loginOverlay').classList.add('hidden');
+    $('userPill').classList.remove('hidden');
+    $('userName').textContent = userLabel();
+    $('userRole').textContent = isAdmin() ? 'Administrador/a' : 'Editor/a';
+    $('usersRow').classList.toggle('hidden', !isAdmin());
+    $('promoRow').classList.toggle('hidden', !isAdmin());
+    $('archiveCreateRow').classList.toggle('hidden', !isAdmin());
+    $('btnDeleteArchive').classList.toggle('hidden', !isAdmin());
+  }
+  async function onAuthChange(user){
+    if(!user){
+      currentUser = null;
+      if(unsubStudents){ unsubStudents(); unsubStudents = null; }
+      students = []; updateHeaderCount();
+      showLogin();
+      return;
+    }
+    var profile = null;
+    try{
+      var snap = await getDoc(doc(db, 'usuaris', String(user.email).toLowerCase()));
+      if(snap.exists()){
+        var d = snap.data();
+        profile = {email: String(user.email).toLowerCase(), nom: d.nom || '', rol: d.rol || 'editor', carrec: d.carrec || ''};
+      } else {
+        try{ await user.delete(); }catch(e){}
+        await signOut(auth);
+        showLogin();
+        loginMsg("Aquest correu no està autoritzat. Demana a l'administrador/a que te'n doni l'alta.");
+        return;
+      }
+    }catch(e){
+      await signOut(auth);
+      showLogin();
+      loginMsg("No s'ha pogut verificar el teu accés. Torna-ho a provar.");
+      return;
+    }
+    currentUser = profile;
+    updateUserUI();
+    startStudentsListener();
+    showView('home');
+  }
+
+  // ---------- GESTIÓ D'USUARIS (només administració) ----------
+  async function renderUsers(){
+    var area = $('usersListArea');
+    area.innerHTML = '<p class="eval-empty">Carregant…</p>';
+    try{
+      var snap = await getDocs(collection(db, 'usuaris'));
+      var list = snap.docs.map(function(d){ var o = d.data(); o.email = d.id; return o; })
+        .sort(function(a, b){ return String(a.nom || a.email).localeCompare(String(b.nom || b.email), 'ca'); });
+      area.innerHTML = list.map(function(u){
+        var isMe = currentUser && u.email === currentUser.email;
+        return '<div class="user-row"><div class="u-main"><strong>'+esc(u.nom || u.email)+'</strong><span>'+esc(u.email)+(u.carrec?' · '+esc(u.carrec):'')+'</span></div>'
+          + '<span class="u-tag '+(u.rol==='admin'?'admin':'')+'">'+(u.rol==='admin'?'Administrador/a':'Editor/a')+'</span>'
+          + (isMe ? '' : '<button type="button" class="btn btn-ghost btn-del-user" data-email="'+esc(u.email)+'">Treu l\'accés</button>')
+          + '</div>';
+      }).join('') || '<p class="eval-empty">Encara no hi ha usuaris.</p>';
+      area.querySelectorAll('.btn-del-user').forEach(function(b){
+        b.addEventListener('click', async function(){
+          var em = b.getAttribute('data-email');
+          if(!window.confirm("Segur que vols treure l'accés a " + em + "?")) return;
+          try{ await deleteDoc(doc(db, 'usuaris', em)); showToast("Accés retirat."); renderUsers(); }
+          catch(e){ showToast(fbErrorMsg(e), true); }
+        });
+      });
+    }catch(e){
+      area.innerHTML = '<p class="eval-empty">No s\'ha pogut carregar la llista.</p>';
+    }
+  }
+  async function addUser(){
+    var email = $('u-email').value.trim().toLowerCase();
+    if(!email || email.indexOf('@') < 1){ showToast("Escriu un correu vàlid.", true); return; }
+    try{
+      await setDoc(doc(db, 'usuaris', email), {
+        nom: $('u-nom').value.trim(),
+        carrec: $('u-carrec').value,
+        rol: $('u-rol').value
+      });
+      $('u-email').value = ''; $('u-nom').value = '';
+      showToast("Usuari afegit. Ja pot crear la seva contrasenya.");
+      renderUsers();
+    }catch(e){ showToast(fbErrorMsg(e), true); }
+  }
+
+  // ---------- CONSTRUCCIÓ DE FORMULARI ----------
+  function buildSelects(){
+    var sel = $('f-llocNaixement');
+    COUNTRIES.forEach(function(c){
+      var o = document.createElement('option');
+      o.value = c; o.textContent = c;
+      sel.appendChild(o);
+    });
+    var grid = $('piGrid');
+    PI_AREAS.forEach(function(area, i){
+      var id = 'pi-'+i;
+      var wrap = document.createElement('label');
+      wrap.className = 'pi-item';
+      wrap.setAttribute('for', id);
+      wrap.innerHTML = '<input type="checkbox" id="'+id+'" value="'+esc(area)+'"> <span>'+esc(area)+'</span>';
+      grid.appendChild(wrap);
+    });
+
+    var tipusGrid = $('tipusPsiGrid');
+    TIPUS_PSI.forEach(function(t, i){
+      var id = 'tpsi-'+i;
+      var wrap = document.createElement('label');
+      wrap.className = 'pi-item';
+      wrap.setAttribute('for', id);
+      wrap.innerHTML = '<input type="checkbox" id="'+id+'" value="'+esc(t.value)+'" data-needs="'+(t.needsField||'')+'"> <span>'+esc(t.value)+'</span>';
+      tipusGrid.appendChild(wrap);
+    });
+    tipusGrid.addEventListener('change', updatePsiDateVisibility);
+
+    var diagGrid = $('diagnosticGrid');
+    ["Sí","No"].forEach(function(opt, i){
+      var id = 'diag-'+i;
+      var wrap = document.createElement('label');
+      wrap.className = 'pi-item';
+      wrap.setAttribute('for', id);
+      wrap.innerHTML = '<input type="radio" name="teDiagnostic" id="'+id+'" value="'+esc(opt)+'"> <span>'+esc(opt)+'</span>';
+      diagGrid.appendChild(wrap);
+    });
+
+    var necGrid = $('necessitatsGrid');
+    NECESSITATS.forEach(function(n, i){
+      var id = 'nec-'+i;
+      var wrap = document.createElement('label');
+      wrap.className = 'pi-item';
+      wrap.setAttribute('for', id);
+      wrap.innerHTML = '<input type="checkbox" id="'+id+'" value="'+esc(n)+'"> <span>'+esc(n)+'</span>';
+      necGrid.appendChild(wrap);
+    });
+    necGrid.addEventListener('change', updateNecessitatsAltres);
+  }
+
+  function updatePsiDateVisibility(){
+    TIPUS_PSI.forEach(function(t){
+      if(!t.needsField) return;
+      var checked = Array.prototype.some.call(document.querySelectorAll('#tipusPsiGrid input'), function(cb){
+        return cb.value === t.value && cb.checked;
+      });
+      $(t.needsField).style.display = checked ? 'flex' : 'none';
+    });
+  }
+  function updateNecessitatsAltres(){
+    var checked = Array.prototype.some.call(document.querySelectorAll('#necessitatsGrid input'), function(cb){
+      return cb.value === 'Altres' && cb.checked;
+    });
+    $('fieldNecessitatsAltres').style.display = checked ? 'flex' : 'none';
+  }
+
+  var FIELD_IDS = ["nom","cognoms","curs","grup","tutor","dataNaixement","llocNaixement","adreca","correu","telefon","llenguaUs","altresLlengues","dataArribadaCat","dataIncorpSistema","dataIncorpCentre","centresAnteriors","escolaritzacioPrevia","repeticions","altresInfo","psiDataCurricular","psiDataArribadaCentre","necessitatsAltres"];
+
+  function getFieldValues(){
+    var vals = {};
+    FIELD_IDS.forEach(function(id){ vals[id] = $('f-'+id).value.trim(); });
+    vals.areesPI = Array.prototype.slice.call(document.querySelectorAll('#piGrid input:checked')).map(function(cb){return cb.value;});
+    vals.tipusPsi = Array.prototype.slice.call(document.querySelectorAll('#tipusPsiGrid input:checked')).map(function(cb){return cb.value;});
+    vals.necessitats = Array.prototype.slice.call(document.querySelectorAll('#necessitatsGrid input:checked')).map(function(cb){return cb.value;});
+    var diagRadio = document.querySelector('input[name="teDiagnostic"]:checked');
+    vals.teDiagnostic = diagRadio ? diagRadio.value : "";
+    vals.photoData = currentPhotoData;
+    vals.avaluacions = cloneEval(currentEval);
+    vals.continguts = getContinguts();
+    return vals;
+  }
+  function setFieldValues(v){
+    FIELD_IDS.forEach(function(id){ $('f-'+id).value = v && v[id] ? v[id] : ""; });
+    var checked = (v && v.areesPI) ? v.areesPI : [];
+    document.querySelectorAll('#piGrid input').forEach(function(cb){ cb.checked = checked.indexOf(cb.value) > -1; });
+    var tipusChecked = (v && v.tipusPsi) ? v.tipusPsi : [];
+    document.querySelectorAll('#tipusPsiGrid input').forEach(function(cb){ cb.checked = tipusChecked.indexOf(cb.value) > -1; });
+    var necChecked = (v && v.necessitats) ? v.necessitats : [];
+    document.querySelectorAll('#necessitatsGrid input').forEach(function(cb){ cb.checked = necChecked.indexOf(cb.value) > -1; });
+    document.querySelectorAll('input[name="teDiagnostic"]').forEach(function(rb){ rb.checked = !!(v && v.teDiagnostic === rb.value); });
+    updatePsiDateVisibility();
+    updateNecessitatsAltres();
+  }
+  function clearInvalid(){
+    ["f-nom","f-cognoms","f-curs","f-grup"].forEach(function(id){ $(id).classList.remove('invalid'); });
+  }
+  function updatePhotoPreview(){
+    var img = $('photoImg'), ph = $('photoPlaceholder');
+    if(currentPhotoData){
+      img.src = currentPhotoData;
+      img.style.display = 'block';
+      ph.style.display = 'none';
+    } else {
+      img.removeAttribute('src');
+      img.style.display = 'none';
+      ph.style.display = 'block';
+    }
+  }
+  function resizeImageFile(file, maxDim, quality){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(e){
+        var img = new Image();
+        img.onload = function(){
+          var w = img.width, h = img.height;
+          var scale = Math.min(1, maxDim / Math.max(w,h));
+          var cw = Math.max(1, Math.round(w*scale)), ch = Math.max(1, Math.round(h*scale));
+          var canvas = document.createElement('canvas');
+          canvas.width = cw; canvas.height = ch;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, cw, ch);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = function(){ reject(new Error('img load error')); };
+        img.src = e.target.result;
+      };
+      reader.onerror = function(){ reject(new Error('read error')); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function clearFields(){
+    setFieldValues({});
+    clearInvalid();
+    resetEvalState(null);
+    setContinguts(null);
+    editBase = null;
+    currentPhotoData = null;
+    $('f-foto').value = "";
+    updatePhotoPreview();
+  }
+
+  function enterEditMode(student){
+    editingId = student.id;
+    setFieldValues(student);
+    resetEvalState(student.avaluacions);
+    setContinguts(student.continguts);
+    currentPhotoData = student.photoData || null;
+    $('f-foto').value = "";
+    updatePhotoPreview();
+    $('editFlag').classList.add('show');
+    $('formTitle').textContent = "Edita l'alumne";
+    $('btnDesar').textContent = "Desar canvis";
+    editBase = JSON.parse(JSON.stringify(student));
+    showView('form');
+  }
+  function enterNewMode(){
+    editingId = null;
+    clearFields();
+    $('editFlag').classList.remove('show');
+    $('formTitle').textContent = "Nou alumne";
+    $('btnDesar').textContent = "Afegir alumne";
+    showView('form');
+  }
+
+  // ---------- CERCA (pàgina principal, només nom / cognoms / curs) ----------
+  function matchesSimple(student, crit){
+    if(crit.nom && String(student.nom||"").toLowerCase().indexOf(crit.nom.toLowerCase()) === -1) return false;
+    if(crit.cognoms && String(student.cognoms||"").toLowerCase().indexOf(crit.cognoms.toLowerCase()) === -1) return false;
+    if(crit.curs && student.curs !== crit.curs) return false;
+    return true;
+  }
+  function runSearch(){
+    var crit = {
+      nom: $('s-nom').value.trim(),
+      cognoms: $('s-cognoms').value.trim(),
+      curs: $('s-curs').value
+    };
+    var hasCriteria = !!(crit.nom || crit.cognoms || crit.curs);
+    var list = hasCriteria ? students.filter(function(s){ return matchesSimple(s, crit); }) : students.slice();
+    renderResults(list, hasCriteria);
+  }
+
+  // ---------- RENDER ----------
+  function updateHeaderCount(){
+    $('headerCount').textContent = students.length;
+  }
+
+  function renderResults(list, filtered){
+    var area = $('resultsArea');
+    var sub = $('resultsSub');
+    list = list.slice().sort(function(a,b){ return (a.cognoms+a.nom).localeCompare(b.cognoms+b.nom,'ca'); });
+
+    if(students.length === 0){
+      sub.textContent = "Cap alumne registrat encara";
+      area.innerHTML = '<div class="empty-state"><h3>Encara no hi ha cap alumne</h3><p>Prem «Nou alumne» per donar d\'alta el primer registre de l\'aula d\'acollida.</p></div>';
+      lastRenderedList = [];
+      return;
+    }
+    if(list.length === 0){
+      sub.textContent = "0 resultats";
+      area.innerHTML = '<div class="empty-state"><h3>Cap coincidència</h3><p>No hi ha cap alumne que coincideixi amb aquests criteris. Prova de netejar la cerca.</p></div>';
+      lastRenderedList = [];
+      return;
+    }
+    sub.textContent = list.length + (list.length===1 ? " alumne trobat" : " alumnes trobats") + (filtered ? " amb els criteris indicats" : "");
+    lastRenderedList = list;
+
+    var html = '<div class="cards-grid">';
+    list.forEach(function(s){
+      var bar = CURS_COLOR[s.curs] || 'var(--line)';
+      var avatar = s.photoData
+        ? '<img src="'+s.photoData+'" alt="">'
+        : '<div class="card-avatar-fallback" style="background:'+bar+'">'+esc(initials(s.nom,s.cognoms))+'</div>';
+      html += '<div class="student-card" data-id="'+esc(s.id)+'">'
+        + '<div class="card-bar" style="background:'+bar+'"></div>'
+        + '<div class="card-body">'
+        + '<div class="card-top"><div class="card-avatar">'+avatar+'</div>'
+        + '<div><h3>'+esc(s.nom)+' '+esc(s.cognoms)+'</h3>'
+        + '<div class="card-meta">Curs '+esc(s.curs||'—')
+        + (s.tutor ? '<span class="tutor-line">Tutor/a: '+esc(s.tutor)+'</span>' : '')
+        + '<span class="grup-chip">Grup '+esc(s.grup||'—')+'</span>'
+        + '</div></div></div></div></div>';
+    });
+    html += '</div>';
+    area.innerHTML = html;
+
+    area.querySelectorAll('.student-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        openFitxaById(card.getAttribute('data-id'));
+      });
+    });
+  }
+
+  // ---------- SESSIONS D'AVALUACIÓ I CONTINGUTS ----------
+  var EVAL_TABS = [
+    {key:'a1', label:'1a avaluació'},
+    {key:'a2', label:'2a avaluació'},
+    {key:'a3', label:'3a avaluació'},
+    {key:'final', label:'Avaluació final'}
+  ];
+  var TRIMESTRES = [
+    {key:'t1', label:'1r trimestre'},
+    {key:'t2', label:'2n trimestre'},
+    {key:'t3', label:'3r trimestre'}
+  ];
+  var currentEval = {a1:[],a2:[],a3:[],final:[]};
+  var evalDrafts = {a1:'',a2:'',a3:'',final:''};
+  var activeEvalTab = 'a1';
+
+  function cloneEval(e){
+    var r = {a1:[],a2:[],a3:[],final:[]};
+    EVAL_TABS.forEach(function(t){
+      r[t.key] = ((e && e[t.key]) || []).map(function(x){ return {id:x.id, date:x.date, text:x.text, autor:x.autor || ''}; });
+    });
+    return r;
+  }
+  function fmtStamp(iso){
+    var d = new Date(iso);
+    if(isNaN(d.getTime())) return "";
+    function pad(n){ return (n<10?'0':'')+n; }
+    return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear();
+  }
+  var CONT_PREFIX = {mates:'cm-', catala:'cc-'};
+  function getContinguts(){
+    var r = {};
+    ['mates','catala'].forEach(function(g){
+      r[g] = {};
+      TRIMESTRES.forEach(function(t){ r[g][t.key] = $(CONT_PREFIX[g] + t.key).value.trim(); });
+    });
+    return r;
+  }
+  function setContinguts(c){
+    ['mates','catala'].forEach(function(g){
+      TRIMESTRES.forEach(function(t){
+        $(CONT_PREFIX[g] + t.key).value = (c && c[g] && c[g][t.key]) ? c[g][t.key] : "";
+      });
+    });
+  }
+  function resetEvalState(data){
+    currentEval = cloneEval(data);
+    evalDrafts = {a1:'',a2:'',a3:'',final:''};
+    activeEvalTab = 'a1';
+    $('eval-text').value = "";
+    renderEvalTabs();
+    renderEvalList();
+  }
+  function renderEvalTabs(){
+    var box = $('evalTabs');
+    box.innerHTML = "";
+    EVAL_TABS.forEach(function(t){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'eval-tab' + (t.key === activeEvalTab ? ' active' : '');
+      b.setAttribute('role','tab');
+      var n = currentEval[t.key].length;
+      b.innerHTML = esc(t.label) + (n ? '<span class="count">'+n+'</span>' : '');
+      b.addEventListener('click', function(){
+        evalDrafts[activeEvalTab] = $('eval-text').value;
+        activeEvalTab = t.key;
+        $('eval-text').value = evalDrafts[t.key] || "";
+        renderEvalTabs();
+        renderEvalList();
+      });
+      box.appendChild(b);
+    });
+    var lbl = EVAL_TABS.filter(function(t){ return t.key === activeEvalTab; })[0].label;
+    $('evalLabel').textContent = 'Nova anotació · ' + lbl;
+  }
+  function renderEvalList(){
+    var list = currentEval[activeEvalTab].slice().reverse();
+    var box = $('evalList');
+    if(!list.length){
+      box.innerHTML = '<p class="eval-empty">Encara no hi ha anotacions en aquesta sessió.</p>';
+      return;
+    }
+    box.innerHTML = list.map(function(en){
+      return '<div class="eval-entry"><div class="eval-entry-head"><span>'+esc(fmtStamp(en.date))+(en.autor?' · '+esc(en.autor):'')+'</span>'
+        + '<button type="button" class="eval-del" data-id="'+esc(en.id)+'">Elimina</button></div>'
+        + '<p>'+esc(en.text)+'</p></div>';
+    }).join('');
+    box.querySelectorAll('.eval-del').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-id');
+        currentEval[activeEvalTab] = currentEval[activeEvalTab].filter(function(x){ return x.id !== id; });
+        renderEvalTabs();
+        renderEvalList();
+        persistExtras("Anotació eliminada del perfil.");
+      });
+    });
+  }
+  async function persistExtras(msgSaved){
+    if(editingId){
+      try{
+        var out = await saveEdit(editingId, {avaluacions: currentEval, continguts: getContinguts()}, ['avaluacions','continguts']);
+        currentEval = cloneEval(out.avaluacions);
+        renderEvalTabs();
+        renderEvalList();
+        setContinguts(out.continguts);
+        showToast(msgSaved);
+      }catch(e){
+        showToast(fbErrorMsg(e), true);
+      }
+      return;
+    }
+    showToast("Fet. Es desarà al perfil quan premis «Afegir alumne».");
+  }
+  function addEvalEntry(){
+    var txt = $('eval-text').value.trim();
+    if(!txt){ showToast("Escriu una anotació abans de desar-la.", true); return; }
+    currentEval[activeEvalTab].push({
+      id: 'ev_' + Date.now() + '_' + Math.floor(Math.random()*1000),
+      date: new Date().toISOString(),
+      text: txt,
+      autor: userLabel()
+    });
+    evalDrafts[activeEvalTab] = '';
+    $('eval-text').value = "";
+    renderEvalTabs();
+    renderEvalList();
+    persistExtras("Anotació desada al perfil.");
+  }
+  function flushDrafts(){
+    evalDrafts[activeEvalTab] = $('eval-text').value;
+    EVAL_TABS.forEach(function(t){
+      var txt = (evalDrafts[t.key] || '').trim();
+      if(txt){
+        currentEval[t.key].push({id:'ev_'+Date.now()+'_'+Math.floor(Math.random()*1000), date:new Date().toISOString(), text:txt, autor:userLabel()});
+        evalDrafts[t.key] = '';
+      }
+    });
+    $('eval-text').value = "";
+    renderEvalTabs();
+    renderEvalList();
+  }
+  function fitxaEvalHtml(s){
+    var ev = s.avaluacions || {};
+    var any = false;
+    var evHtml = '';
+    EVAL_TABS.forEach(function(t){
+      var entries = ev[t.key] || [];
+      if(!entries.length) return;
+      any = true;
+      evHtml += '<div class="fitxa-group-title">'+esc(t.label)+'</div>'
+        + entries.map(function(en){ return '<div class="fitxa-note"><span class="stamp">'+esc(fmtStamp(en.date))+(en.autor?' · '+esc(en.autor):'')+'</span>'+esc(en.text)+'</div>'; }).join('');
+    });
+    var out = '<div class="fitxa-section"><h4>Sessions d\'avaluació</h4>'
+      + (any ? evHtml : '<p style="color:var(--ink-soft); font-size:0.88rem; margin:0;">Encara no hi ha anotacions.</p>')
+      + '</div>';
+    var ct = s.continguts || {};
+    var ctHtml = '';
+    [['mates','Matemàtiques'],['catala','Català']].forEach(function(g){
+      ctHtml += '<div class="fitxa-group-title" style="font-size:0.88rem;margin-top:12px;">'+g[1]+'</div>';
+      TRIMESTRES.forEach(function(t){
+        var val = ct[g[0]] && ct[g[0]][t.key];
+        ctHtml += '<div class="fitxa-group-title">'+esc(t.label)+'</div>'
+          + (val ? '<div class="fitxa-note">'+esc(val)+'</div>' : '<p style="color:var(--ink-soft); font-size:0.85rem; margin:0;">—</p>');
+      });
+    });
+    out += '<div class="fitxa-section"><h4>Continguts treballats</h4>'+ctHtml+'</div>';
+    return out;
+  }
+
+  // ---------- FITXA (VISUALITZACIÓ) ----------
+  function fitxaRow(label, value, full){
+    return '<div class="fitxa-row'+(full?' full':'')+'"><dt>'+esc(label)+'</dt><dd>'+(value ? esc(value) : '<span style="color:var(--ink-soft)">—</span>')+'</dd></div>';
+  }
+
+  function buildFitxaContentHtml(s){
+    var bg = CURS_BG[s.curs] || 'var(--navy)';
+    var fitxaAvatarInner = s.photoData
+      ? '<img src="'+s.photoData+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+      : esc(initials(s.nom,s.cognoms));
+    var html = ''
+      + '<div class="fitxa-head" style="background:'+bg+'">'
+      +   '<div class="fitxa-avatar">'+fitxaAvatarInner+'</div>'
+      +   '<div><h3>'+esc(s.nom)+' '+esc(s.cognoms)+'</h3>'
+      +   '<div class="fitxa-sub">Curs '+esc(s.curs||'—')+' · Grup '+esc(s.grup||'—')+(s.tutor?' · Tutor/a: '+esc(s.tutor):'')+'</div></div>'
+      + '</div>'
+      + '<div class="fitxa-body">'
+
+      + '<div class="fitxa-section"><h4>Dades personals i de contacte</h4><div class="fitxa-rows">'
+      + fitxaRow('Data de naixement', fmtDate(s.dataNaixement))
+      + fitxaRow('Lloc de naixement', s.llocNaixement)
+      + fitxaRow('Correu electrònic', s.correu)
+      + fitxaRow('Telèfon', s.telefon)
+      + fitxaRow('Adreça', s.adreca, true)
+      + '</div></div>'
+
+      + '<div class="fitxa-section"><h4>Dades lingüístiques</h4><div class="fitxa-rows">'
+      + fitxaRow('Llengua d\'ús habitual', s.llenguaUs)
+      + fitxaRow('Altres llengües que coneix', s.altresLlengues)
+      + '</div></div>'
+
+      + '<div class="fitxa-section"><h4>Escolarització</h4><div class="fitxa-rows">'
+      + fitxaRow('Data d\'arribada a Catalunya', fmtDate(s.dataArribadaCat))
+      + fitxaRow('Incorporació al sistema educatiu català', fmtDate(s.dataIncorpSistema))
+      + fitxaRow('Incorporació al centre actual', fmtDate(s.dataIncorpCentre))
+      + fitxaRow('Escolarització prèvia', s.escolaritzacioPrevia)
+      + fitxaRow('Repeticions de curs', s.repeticions)
+      + fitxaRow('Centres on ha estat matriculat anteriorment', s.centresAnteriors, true)
+      + '</div></div>'
+
+      + '<div class="fitxa-section"><h4>Pla de Suport Individualitzat (PSI)</h4>'
+      + '<div class="fitxa-group-title">Àrees per a les quals s\'elabora el PSI</div>'
+      + (s.areesPI && s.areesPI.length
+          ? '<div class="fitxa-chips">'+s.areesPI.map(function(a){return '<span class="fitxa-chip">'+esc(a)+'</span>';}).join('')+'</div>'
+          : '<p style="color:var(--ink-soft); font-size:0.88rem; margin:0;">No s\'ha assignat cap àrea.</p>')
+      + '<div class="fitxa-group-title">Tipus de PSI</div>'
+      + (s.tipusPsi && s.tipusPsi.length
+          ? '<div class="fitxa-chips">'+s.tipusPsi.map(function(a){return '<span class="fitxa-chip">'+esc(a)+'</span>';}).join('')+'</div>'
+          : '<p style="color:var(--ink-soft); font-size:0.88rem; margin:0;">No s\'ha indicat.</p>')
+      + '<div class="fitxa-rows" style="margin-top:10px;">'
+      + fitxaRow('Data de creació del primer PSI curricular', fmtDate(s.psiDataCurricular))
+      + fitxaRow('Data d\'arribada al centre', fmtDate(s.psiDataArribadaCentre))
+      + '</div>'
+      + '<div class="fitxa-rows" style="margin-top:10px;">'
+      + fitxaRow('Té diagnòstic?', s.teDiagnostic)
+      + '</div>'
+      + '<div class="fitxa-group-title">Tipus de necessitats educatives</div>'
+      + (s.necessitats && s.necessitats.length
+          ? '<div class="fitxa-chips">'+s.necessitats.map(function(a){return '<span class="fitxa-chip">'+esc(a)+'</span>';}).join('')+'</div>'
+          : '<p style="color:var(--ink-soft); font-size:0.88rem; margin:0;">No s\'ha indicat.</p>')
+      + (s.necessitatsAltres ? '<div class="fitxa-note" style="margin-top:8px;">'+esc(s.necessitatsAltres)+'</div>' : '')
+      + '</div>'
+
+      + '<div class="fitxa-section"><h4>Altres informacions d\'interès</h4>'
+      + (s.altresInfo ? '<div class="fitxa-note">'+esc(s.altresInfo)+'</div>' : '<p style="color:var(--ink-soft); font-size:0.88rem; margin:0;">Sense observacions addicionals.</p>')
+      + '</div>'
+
+      + fitxaEvalHtml(s)
+      + ((s.creatPer || s.modificatPer)
+          ? '<p class="fitxa-audit">Alta: '+esc(s.creatPer||'—')+(s.creatData?' el '+esc(fmtStamp(s.creatData)):'')
+            +' · Darrera modificació: '+esc(s.modificatPer||'—')+(s.modificatData?' el '+esc(fmtStamp(s.modificatData)):'')+'</p>'
+          : '')
+      + '</div>';
+    return html;
+  }
+
+  function openFitxa(s, opts){
+    opts = opts || {};
+    var readOnly = !!opts.readOnly;
+    var html = buildFitxaContentHtml(s)
+      + (readOnly ? '<p class="archived-badge" style="margin:0 28px 14px;">Fitxa arxivada'+(opts.archiveName?' · '+esc(opts.archiveName):'')+' — només lectura</p>' : '')
+      + '<div class="confirm-box" id="confirmBox"><p>Segur que vols eliminar la fitxa de <strong>'+esc(s.nom)+' '+esc(s.cognoms)+'</strong>? Aquesta acció no es pot desfer.</p>'
+      +   '<button class="btn btn-danger" id="btnConfirmDelete">Sí, eliminar</button> '
+      +   '<button class="btn btn-ghost" id="btnAbortDelete">Cancel·la</button></div>'
+      + '<div class="fitxa-actions">'
+      +   (readOnly ? '' : '<button class="btn btn-primary" id="btnEditFitxa">Edita</button>')
+      +   ((readOnly || !isAdmin()) ? '' : '<button class="btn btn-ghost" id="btnDeleteFitxa">Elimina</button>')
+      +   '<button class="btn btn-ghost" id="btnExportPdf">Exporta a PDF</button>'
+      +   '<button class="btn btn-ghost" id="btnExportWord">Exporta a Word</button>'
+      +   '<button class="btn btn-ghost" id="btnCloseFitxa" style="margin-left:auto;">Tanca</button>'
+      + '</div>';
+
+    $('fitxaCard').innerHTML = html;
+    $('overlay').classList.add('show');
+
+    $('btnCloseFitxa').addEventListener('click', closeFitxa);
+    $('btnExportPdf').addEventListener('click', function(){ exportFitxaPdf(s); });
+    $('btnExportWord').addEventListener('click', function(){ exportFitxaWord(s); });
+    if(!readOnly){
+      $('btnEditFitxa').addEventListener('click', function(){
+        closeFitxa();
+        enterEditMode(s);
+      });
+      if($('btnDeleteFitxa')){
+        $('btnDeleteFitxa').addEventListener('click', function(){
+          $('confirmBox').classList.add('show');
+        });
+      }
+      $('btnAbortDelete').addEventListener('click', function(){
+        $('confirmBox').classList.remove('show');
+      });
+      $('btnConfirmDelete').addEventListener('click', async function(){
+        try{
+          await deleteDoc(doc(db, 'alumnes', s.id));
+          closeFitxa();
+          showToast("Fitxa eliminada.");
+        }catch(e){
+          showToast(fbErrorMsg(e), true);
+        }
+      });
+    }
+  }
+  function openFitxaById(id){
+    var s = students.find(function(x){ return x.id === id; });
+    if(!s) return;
+    openFitxa(s, {readOnly:false});
+  }
+  function closeFitxa(){
+    $('overlay').classList.remove('show');
+    $('fitxaCard').innerHTML = "";
+  }
+
+  // ---------- EXPORTACIÓ (PDF / WORD) ----------
+  var APP_TITLE = "Escola Àngels Alemany i Boris — Atenció a la diversitat";
+
+  function getLogoSrc(){
+    var img = document.querySelector('.logo-badge img');
+    return img ? img.src : '';
+  }
+
+  function exportStylesBlock(){
+    return ''
+      + "@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Libre+Franklin:wght@400;500;600;700&display=swap');"
+      + 'body{font-family:"Libre Franklin",-apple-system,sans-serif;color:#20262F;margin:0;background:#F6F3EC;}'
+      + 'h1,h2,h3,h4{font-family:"Fraunces",Georgia,serif;margin:0;color:#0F2542;}'
+      + '.export-page{max-width:900px;margin:0 auto;padding:0 0 40px;}'
+      + '.export-header{background:linear-gradient(135deg,#0F2542 0%,#16335A 62%,#1c4270 100%);color:#F4EFE2;padding:22px 28px;display:flex;align-items:center;gap:18px;border-bottom:4px solid #D9C57E;}'
+      + '.export-logo{background:#FCFAF4;border-radius:12px;padding:6px;width:52px;height:52px;flex:none;}'
+      + '.export-header h1{font-size:1.3rem;color:#FBF8F0;line-height:1.2;}'
+      + '.export-header p{margin:4px 0 0;font-family:"Fraunces",serif;font-style:italic;font-size:0.95rem;color:#D9C57E;}'
+      + '.export-meta{padding:16px 28px 0;color:#5B6470;font-size:0.82rem;}'
+      + '.export-body{padding:20px 28px 10px;}'
+      + '.fitxa-head{padding:16px 0;border-bottom:2px solid #D9C57E;display:flex;gap:14px;align-items:center;margin-bottom:16px;}'
+      + '.fitxa-avatar{width:54px;height:54px;border-radius:50%;background:#EFEAE0;display:flex;align-items:center;justify-content:center;font-weight:700;color:#16335A;flex:none;}'
+      + '.fitxa-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}'
+      + '.fitxa-head h3{margin:0;font-size:1.25rem;color:#0F2542;}'
+      + '.fitxa-sub{font-size:0.84rem;color:#5B6470;margin-top:2px;}'
+      + '.fitxa-section{margin-bottom:16px;page-break-inside:avoid;}'
+      + '.fitxa-section h4{font-family:"Fraunces",serif;font-size:0.92rem;font-weight:600;color:#0E8AA6;border-bottom:1px solid #E8E2D4;padding-bottom:5px;margin:0 0 8px;}'
+      + '.fitxa-rows{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;}'
+      + '.fitxa-row dt{font-size:0.7rem;color:#5B6470;font-weight:600;margin:0;}'
+      + '.fitxa-row dd{margin:0 0 6px;font-size:0.88rem;}'
+      + '.fitxa-row.full{grid-column:1/-1;}'
+      + '.fitxa-chips{display:flex;flex-wrap:wrap;gap:6px;}'
+      + '.fitxa-chip{background:#EFEAE0;border:1px solid #DDD5C4;border-radius:12px;padding:3px 10px;font-size:0.75rem;color:#0F2542;}'
+      + '.fitxa-note{background:#EFEAE0;border-left:3px solid #B79A45;border-radius:0 6px 6px 0;padding:8px 12px;font-size:0.85rem;white-space:pre-wrap;margin-bottom:6px;}'
+      + '.fitxa-group-title{font-size:0.78rem;font-weight:700;color:#16335A;margin:8px 0 4px;}'
+      + '.student-sheet{margin-bottom:10px;}'
+      + '.student-sheet + .student-sheet{padding-top:24px;}'
+      + '@media print{ .export-header{-webkit-print-color-adjust:exact;print-color-adjust:exact;} }';
+  }
+
+  function exportHeaderHtml(metaLine){
+    return '<div class="export-header">'
+      + '<img class="export-logo" src="'+getLogoSrc()+'" alt="">'
+      + '<div><h1>Escola Àngels Alemany i Boris</h1><p>Atenció a la diversitat</p></div>'
+      + '</div>'
+      + '<p class="export-meta">'+esc(metaLine)+'</p>';
+  }
+
+  function exportFitxaPdf(s){
+    var w = window.open('', '_blank');
+    if(!w){ showToast("El navegador ha bloquejat la finestra d'impressió.", true); return; }
+    var meta = 'Fitxa individual de '+s.nom+' '+s.cognoms+' · generada el '+fmtStamp(new Date().toISOString());
+    var html = '<!DOCTYPE html><html lang="ca"><head><meta charset="UTF-8"><title>'+esc(s.nom)+' '+esc(s.cognoms)+'</title>'
+      + '<style>'+exportStylesBlock()+'</style></head><body>'
+      + '<div class="export-page">'
+      + exportHeaderHtml(meta)
+      + '<div class="export-body">' + buildFitxaContentHtml(s) + '</div>'
+      + '</div></body></html>';
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    setTimeout(function(){ w.print(); }, 500);
+  }
+
+  function exportMultiPdf(list, groupLabel){
+    if(!list || !list.length){ showToast("No hi ha cap alumne per exportar.", true); return; }
+    var w = window.open('', '_blank');
+    if(!w){ showToast("El navegador ha bloquejat la finestra d'impressió.", true); return; }
+    var sorted = list.slice().sort(function(a,b){ return (a.cognoms+a.nom).localeCompare(b.cognoms+b.nom,'ca'); });
+    var body = sorted.map(function(s, i){
+      return '<div class="student-sheet" style="'+(i>0?'page-break-before:always;':'')+'">' + buildFitxaContentHtml(s) + '</div>';
+    }).join('');
+    var meta = (groupLabel||'Alumnat') + ' · ' + sorted.length + (sorted.length===1?' alumne':' alumnes') + ' · generat el ' + fmtStamp(new Date().toISOString());
+    var html = '<!DOCTYPE html><html lang="ca"><head><meta charset="UTF-8"><title>'+esc(groupLabel||'Alumnat')+'</title>'
+      + '<style>'+exportStylesBlock()+'</style></head><body>'
+      + '<div class="export-page">'
+      + exportHeaderHtml(meta)
+      + '<div class="export-body">' + body + '</div>'
+      + '</div></body></html>';
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    setTimeout(function(){ w.print(); }, 600);
+  }
+
+  function exportFitxaWord(s){
+    var content = buildFitxaContentHtml(s);
+    var doc = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">'
+      + '<head><meta charset="utf-8"><title>'+esc(s.nom)+' '+esc(s.cognoms)+'</title>'
+      + '<style>'
+      + 'body{font-family:Calibri,Arial,sans-serif;color:#20262F;}'
+      + 'h1{font-size:18px;color:#0F2542;margin-bottom:0;}'
+      + 'p.sub{color:#5B6470;font-size:12px;margin-top:2px;}'
+      + '.fitxa-head{border-bottom:2px solid #D9C57E;padding-bottom:10px;margin-bottom:14px;}'
+      + '.fitxa-avatar{display:none;}'
+      + '.fitxa-section{margin-bottom:16px;}'
+      + '.fitxa-section h4{font-size:14px;color:#0E8AA6;border-bottom:1px solid #E8E2D4;padding-bottom:4px;}'
+      + '.fitxa-row{margin-bottom:6px;}'
+      + '.fitxa-row dt{font-size:11px;color:#5B6470;font-weight:bold;margin:0;}'
+      + '.fitxa-row dd{margin:0 0 4px;font-size:13px;}'
+      + '.fitxa-chip{border:1px solid #DDD5C4;padding:2px 8px;margin-right:4px;font-size:12px;}'
+      + '.fitxa-note{background:#F6F3EC;border-left:3px solid #B79A45;padding:6px 10px;font-size:13px;}'
+      + '.fitxa-group-title{font-size:12px;font-weight:bold;margin:8px 0 3px;}'
+      + '</style></head><body>'
+      + '<h1>'+esc(APP_TITLE)+'</h1>'
+      + '<p class="sub">Expedient individual generat el '+esc(fmtStamp(new Date().toISOString()))+'</p>'
+      + content
+      + '</body></html>';
+    var blob = new Blob(['\ufeff', doc], {type:'application/msword'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = (s.nom+'_'+s.cognoms).replace(/\s+/g,'_') + '_fitxa.doc';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+    showToast("Document Word generat.");
+  }
+
+  // ---------- ARXIU DE CURSOS (compartit, a Firebase) ----------
+  var archives = {};
+  var currentArchiveName = null;
+
+  function suggestArchiveName(){
+    var dNow = new Date();
+    var y = dNow.getMonth() >= 8 ? dNow.getFullYear() : dNow.getFullYear() - 1;
+    var shortA = String(y).slice(2), shortB = String(y+1).slice(2);
+    return "Curs " + shortA + "/" + shortB;
+  }
+  function archiveId(nom){ return String(nom).replace(/[\/\\]/g, '-').trim(); }
+
+  async function loadArchives(){
+    var snap = await getDocs(collection(db, 'arxius'));
+    archives = {};
+    snap.forEach(function(d){
+      var o = d.data();
+      archives[d.id] = {nom: o.nom || d.id, createdAt: o.createdAt, createdBy: o.createdBy, count: o.count || 0, students: null};
+    });
+  }
+  async function showArchiveList(){
+    $('archiveDetailPanel').classList.add('hidden');
+    $('archiveListPanel').classList.remove('hidden');
+    try{ await loadArchives(); }catch(e){ showToast(fbErrorMsg(e), true); }
+    renderFolders();
+  }
+  async function showArchiveDetail(id){
+    currentArchiveName = id;
+    var folder = archives[id];
+    $('archiveListPanel').classList.add('hidden');
+    $('archiveDetailPanel').classList.remove('hidden');
+    $('archiveDetailTitle').textContent = folder ? folder.nom : id;
+    $('archiveStudentsArea').innerHTML = '<p class="eval-empty">Carregant…</p>';
+    try{
+      if(folder && !folder.students){
+        var snap = await getDocs(collection(db, 'arxius', id, 'alumnes'));
+        folder.students = snap.docs.map(function(d){ var o = d.data(); o.id = d.id; return o; });
+      }
+    }catch(e){ showToast(fbErrorMsg(e), true); }
+    renderArchiveStudents(id);
+  }
+
+  function renderFolders(){
+    var ids = Object.keys(archives).sort(function(a,b){ return archives[a].nom.localeCompare(archives[b].nom,'ca'); });
+    var area = $('folderListArea');
+    if(!ids.length){
+      area.innerHTML = '<div class="empty-state" style="margin-top:18px;"><h3>Encara no hi ha cap arxiu</h3><p>Quan comenci un nou curs, l\'administrador/a pot crear una carpeta per desar-hi una còpia de l\'alumnat actual.</p></div>';
+      return;
+    }
+    var html = '<div class="folder-grid">';
+    ids.forEach(function(id){
+      var folder = archives[id];
+      var n = folder.count || 0;
+      html += '<div class="folder-card" data-id="'+esc(id)+'">'
+        + '<h3>'+esc(folder.nom)+'</h3>'
+        + '<div class="folder-meta">'+n+(n===1?' alumne arxivat':' alumnes arxivats')+(folder.createdAt?' · desat el '+esc(fmtStamp(folder.createdAt)):'')+'</div>'
+        + '<div class="folder-actions"><button type="button" class="btn btn-ghost btn-open-folder" data-id="'+esc(id)+'">Obre la carpeta</button></div>'
+        + '</div>';
+    });
+    html += '</div>';
+    area.innerHTML = html;
+    area.querySelectorAll('.folder-card, .btn-open-folder').forEach(function(el){
+      el.addEventListener('click', function(e){
+        e.stopPropagation();
+        showArchiveDetail(el.getAttribute('data-id'));
+      });
+    });
+  }
+
+  function renderArchiveStudents(id){
+    var folder = archives[id];
+    var list = ((folder && folder.students) || []).slice().sort(function(a,b){ return (a.cognoms+a.nom).localeCompare(b.cognoms+b.nom,'ca'); });
+    var area = $('archiveStudentsArea');
+    if(!list.length){
+      area.innerHTML = '<div class="empty-state"><h3>Carpeta buida</h3><p>Aquesta carpeta d\'arxiu no conté cap alumne.</p></div>';
+      return;
+    }
+    var html = '<div class="cards-grid">';
+    list.forEach(function(s){
+      var bar = CURS_COLOR[s.curs] || 'var(--line)';
+      var avatar = s.photoData
+        ? '<img src="'+s.photoData+'" alt="">'
+        : '<div class="card-avatar-fallback" style="background:'+bar+'">'+esc(initials(s.nom,s.cognoms))+'</div>';
+      html += '<div class="student-card" data-id="'+esc(s.id)+'">'
+        + '<div class="card-bar" style="background:'+bar+'"></div>'
+        + '<div class="card-body">'
+        + '<div class="card-top"><div class="card-avatar">'+avatar+'</div>'
+        + '<div><h3>'+esc(s.nom)+' '+esc(s.cognoms)+'</h3>'
+        + '<div class="card-meta">Curs '+esc(s.curs||'—')
+        + (s.tutor ? '<span class="tutor-line">Tutor/a: '+esc(s.tutor)+'</span>' : '')
+        + '<span class="grup-chip">Grup '+esc(s.grup||'—')+'</span>'
+        + '</div></div></div></div></div>';
+    });
+    html += '</div>';
+    area.innerHTML = html;
+    area.querySelectorAll('.student-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        var sid = card.getAttribute('data-id');
+        var s = folder.students.find(function(x){ return x.id === sid; });
+        if(s) openFitxa(s, {readOnly:true, archiveName:folder.nom});
+      });
+    });
+  }
+
+  async function deleteArchiveStudents(id){
+    var snap = await getDocs(collection(db, 'arxius', id, 'alumnes'));
+    var docs = snap.docs;
+    for(var i = 0; i < docs.length; i += 400){
+      var batch = writeBatch(db);
+      docs.slice(i, i + 400).forEach(function(d){ batch.delete(d.ref); });
+      await batch.commit();
+    }
+  }
+
+  async function createArchiveFromCurrent(){
+    if(!isAdmin()){ showToast("Només l'administrador/a pot crear arxius.", true); return; }
+    var nom = $('archiveNameInput').value.trim();
+    if(!nom){ showToast("Escriu un nom per a la carpeta d'arxiu.", true); return; }
+    var id = archiveId(nom);
+    if(archives[id] && !window.confirm("Ja existeix una carpeta amb aquest nom. Vols sobreescriure-la amb l'alumnat actual?")) return;
+    $('btnCreateArchive').disabled = true;
+    try{
+      if(archives[id]) await deleteArchiveStudents(id);
+      await setDoc(doc(db, 'arxius', id), {nom: nom, createdAt: new Date().toISOString(), createdBy: userLabel(), count: students.length});
+      for(var i = 0; i < students.length; i += 400){
+        var batch = writeBatch(db);
+        students.slice(i, i + 400).forEach(function(s){
+          batch.set(doc(db, 'arxius', id, 'alumnes', s.id), stripForSave(s));
+        });
+        await batch.commit();
+      }
+      $('archiveNameInput').value = "";
+      await loadArchives();
+      renderFolders();
+      showToast('Arxiu «'+nom+'» creat amb '+students.length+' alumnes.');
+    }catch(e){
+      showToast(fbErrorMsg(e), true);
+    }finally{
+      $('btnCreateArchive').disabled = false;
+    }
+  }
+
+  async function deleteCurrentArchive(){
+    if(!isAdmin() || !currentArchiveName) return;
+    var folder = archives[currentArchiveName];
+    if(!window.confirm('Segur que vols eliminar la carpeta «'+(folder?folder.nom:currentArchiveName)+'»? Aquesta acció no es pot desfer.')) return;
+    try{
+      await deleteArchiveStudents(currentArchiveName);
+      await deleteDoc(doc(db, 'arxius', currentArchiveName));
+      await showArchiveList();
+      showToast("Carpeta d'arxiu eliminada.");
+    }catch(e){
+      showToast(fbErrorMsg(e), true);
+    }
+  }
+
+  // ---------- CANVI DE CURS ----------
+  function nextCurs(c){
+    var i = CURS_ORDER.indexOf(c);
+    return (i >= 0 && i < CURS_ORDER.length - 1) ? CURS_ORDER[i + 1] : null;
+  }
+  function renderPromote(){
+    var list = students.slice().sort(function(a,b){ return (a.cognoms+a.nom).localeCompare(b.cognoms+b.nom,'ca'); });
+    var area = $('promoList');
+    if(!list.length){
+      area.innerHTML = '<div class="empty-state" style="margin-top:14px;"><h3>No hi ha alumnat actiu</h3><p>No hi ha cap alumne per passar de curs.</p></div>';
+      return;
+    }
+    area.innerHTML = list.map(function(s){
+      var nx = nextCurs(s.curs);
+      var opts = (nx ? '<option value="next">Passa a '+esc(nx)+'</option>' : '')
+        + '<option value="repeat">Repeteix '+esc(s.curs || 'el curs')+'</option>'
+        + '<option value="baixa">Surt (final d\'etapa o marxa del centre)</option>';
+      return '<div class="promo-row"><div class="p-name"><strong>'+esc(s.nom)+' '+esc(s.cognoms)+'</strong><span>Curs '+esc(s.curs||'—')+' · Grup '+esc(s.grup||'—')+'</span></div>'
+        + '<select class="promo-sel" data-id="'+esc(s.id)+'" data-default="'+(nx ? 'next' : 'baixa')+'">'+opts+'</select></div>';
+    }).join('');
+    area.querySelectorAll('.promo-sel').forEach(function(sel){ sel.value = sel.getAttribute('data-default'); });
+  }
+  async function writeArchive(nom, id, list){
+    if(archives[id]) await deleteArchiveStudents(id);
+    await setDoc(doc(db, 'arxius', id), {nom: nom, createdAt: new Date().toISOString(), createdBy: userLabel(), count: list.length});
+    for(var i = 0; i < list.length; i += 400){
+      var batch = writeBatch(db);
+      list.slice(i, i + 400).forEach(function(s){ batch.set(doc(db, 'arxius', id, 'alumnes', s.id), stripForSave(s)); });
+      await batch.commit();
+    }
+  }
+  async function applyPromotion(){
+    if(!isAdmin()){ showToast("Només l'administrador/a pot fer el canvi de curs.", true); return; }
+    var nom = $('promoArchiveName').value.trim();
+    if(!nom){ showToast("Escriu el nom de la carpeta d'arxiu.", true); return; }
+    if(!students.length){ showToast("No hi ha alumnat per passar de curs.", true); return; }
+    var plan = {}, nNext = 0, nRep = 0, nOut = 0;
+    $('promoList').querySelectorAll('.promo-sel').forEach(function(sel){
+      plan[sel.getAttribute('data-id')] = sel.value;
+      if(sel.value === 'next') nNext++; else if(sel.value === 'repeat') nRep++; else nOut++;
+    });
+    var id = archiveId(nom);
+    var btn = $('btnApplyPromo');
+    btn.disabled = true;
+    try{
+      await loadArchives();
+      if(archives[id] && !window.confirm("Ja existeix una carpeta d'arxiu amb aquest nom. Vols sobreescriure-la?")) return;
+      if(!window.confirm("Es crearà l'arxiu «"+nom+"» amb "+students.length+" alumnes i després:\n- "+nNext+" passaran de curs\n- "+nRep+" repetiran\n- "+nOut+" sortiran de la base de dades activa (quedaran només a l'arxiu)\n\nVols continuar?")) return;
+      var snapshot = students.slice();
+      await writeArchive(nom, id, snapshot);
+      var reset = $('promoReset').checked;
+      var now = new Date().toISOString();
+      for(var i = 0; i < snapshot.length; i += 400){
+        var batch = writeBatch(db);
+        snapshot.slice(i, i + 400).forEach(function(s){
+          var ref = doc(db, 'alumnes', s.id);
+          var p = plan[s.id] || 'repeat';
+          if(p === 'baixa'){ batch.delete(ref); return; }
+          var upd = stripForSave(s);
+          if(p === 'next') upd.curs = nextCurs(s.curs) || s.curs;
+          if(p === 'repeat') upd.repeticions = (s.repeticions ? s.repeticions + '; ' : '') + 'Repeteix ' + (s.curs || '') + ' (' + nom + ')';
+          if(reset){
+            upd.avaluacions = {a1:[],a2:[],a3:[],final:[]};
+            upd.continguts = {mates:{t1:'',t2:'',t3:''}, catala:{t1:'',t2:'',t3:''}};
+          }
+          upd.modificatPer = userLabel(); upd.modificatEmail = currentUser.email; upd.modificatData = now;
+          batch.set(ref, upd);
+        });
+        await batch.commit();
+      }
+      showView('home');
+      showToast("Canvi de curs fet. Arxiu «"+nom+"» creat.");
+    }catch(e){
+      showToast(fbErrorMsg(e), true);
+    }finally{
+      btn.disabled = false;
+    }
+  }
+
+  // ---------- ACCIONS DEL FORMULARI (PÀGINA 2) ----------
+  function validateRequired(v){
+    var ok = true;
+    clearInvalid();
+    if(!v.nom){ $('f-nom').classList.add('invalid'); ok=false; }
+    if(!v.cognoms){ $('f-cognoms').classList.add('invalid'); ok=false; }
+    if(!v.curs){ $('f-curs').classList.add('invalid'); ok=false; }
+    if(!v.grup){ $('f-grup').classList.add('invalid'); ok=false; }
+    return ok;
+  }
+
+  async function handleDesar(){
+    flushDrafts();
+    var v = getFieldValues();
+    if(!validateRequired(v)){
+      showToast("Cal omplir com a mínim nom, cognoms, curs i grup.", true);
+      return;
+    }
+    var btn = $('btnDesar');
+    btn.disabled = true;
+    try{
+      if(editingId){
+        await saveEdit(editingId, v, null);
+        editingId = null;
+        clearFields();
+        showView('home');
+        showToast("Canvis desats.");
+      } else {
+        var dup = findDuplicate(v);
+        if(dup){
+          if(window.confirm(dup.nom + " " + dup.cognoms + " ja existeix a la base de dades (" + (dup.curs||'—') + " " + (dup.grup||'') + "). No es poden duplicar alumnes.\n\nVols obrir la seva fitxa per completar-la o editar-la?")){
+            clearFields();
+            enterEditMode(dup);
+          }
+          return;
+        }
+        await createStudent(v);
+        clearFields();
+        showView('home');
+        showToast("Alumne afegit correctament.");
+      }
+    }catch(e){
+      showToast(fbErrorMsg(e), true);
+    }finally{
+      btn.disabled = false;
+    }
+  }
+
+  function handleCancelForm(){
+    editingId = null;
+    clearFields();
+    showView('home');
+  }
+
+  // ---------- INICI ----------
+  async function init(){
+    buildSelects();
+
+    $('btnCercaSimple').addEventListener('click', runSearch);
+    $('btnNetejarCerca').addEventListener('click', function(){
+      $('s-nom').value = ""; $('s-cognoms').value = ""; $('s-curs').value = "";
+      runSearch();
+    });
+    $('btnAddEval').addEventListener('click', addEvalEntry);
+    $('btnSaveContinguts').addEventListener('click', function(){ persistExtras("Continguts desats al perfil."); });
+    renderEvalTabs();
+    renderEvalList();
+    $('btnNouAlumne').addEventListener('click', enterNewMode);
+    $('f-foto').addEventListener('change', async function(e){
+      var file = e.target.files && e.target.files[0];
+      if(!file) return;
+      if(file.type.indexOf('image/') !== 0){
+        showToast("Selecciona un fitxer d'imatge vàlid.", true);
+        return;
+      }
+      try{
+        currentPhotoData = await resizeImageFile(file, 260, 0.78);
+        updatePhotoPreview();
+      }catch(err){
+        showToast("No s'ha pogut carregar la imatge.", true);
+      }
+    });
+    $('btnRemovePhoto').addEventListener('click', function(){
+      currentPhotoData = null;
+      $('f-foto').value = "";
+      updatePhotoPreview();
+    });
+    $('btnDesar').addEventListener('click', handleDesar);
+    $('btnCancelForm').addEventListener('click', handleCancelForm);
+    $('btnBackToSearch').addEventListener('click', handleCancelForm);
+
+    $('btnObreArxiu').addEventListener('click', function(){
+      $('archiveNameInput').value = suggestArchiveName();
+      showView('archive');
+      showArchiveList();
+    });
+    $('btnBackFromArchive').addEventListener('click', function(){ showView('home'); });
+    $('btnCreateArchive').addEventListener('click', createArchiveFromCurrent);
+    $('btnBackToFolders').addEventListener('click', showArchiveList);
+    $('btnDeleteArchive').addEventListener('click', deleteCurrentArchive);
+    $('btnExportAllPdf').addEventListener('click', function(){
+      exportMultiPdf(lastRenderedList, "Alumnat d'Atenció a la diversitat");
+    });
+    $('btnExportArchivePdf').addEventListener('click', function(){
+      if(!currentArchiveName) return;
+      var folder = archives[currentArchiveName];
+      exportMultiPdf(folder && folder.students ? folder.students : [], folder ? folder.nom : '');
+    });
+
+    $('overlay').addEventListener('click', function(e){ if(e.target === $('overlay')) closeFitxa(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeFitxa(); });
+    ['s-nom','s-cognoms'].forEach(function(id){
+      $(id).addEventListener('keydown', function(e){ if(e.key==='Enter') runSearch(); });
+    });
+
+    // --- sessió i administració ---
+    $('btnLogin').addEventListener('click', handleLogin);
+    $('btnToggleMode').addEventListener('click', function(){ setRegisterMode(!registerMode); });
+    $('btnForgot').addEventListener('click', handleForgot);
+    ['lg-email','lg-pass','lg-pass2'].forEach(function(id){
+      $(id).addEventListener('keydown', function(e){ if(e.key === 'Enter') handleLogin(); });
+    });
+    $('btnLogout').addEventListener('click', function(){ if(auth) signOut(auth); });
+    $('btnObreUsuaris').addEventListener('click', function(){ showView('users'); renderUsers(); });
+    $('btnBackFromUsers').addEventListener('click', function(){ showView('home'); });
+    $('btnAddUser').addEventListener('click', addUser);
+    $('btnObrePromo').addEventListener('click', function(){
+      $('promoArchiveName').value = suggestArchiveName();
+      showView('promote');
+      renderPromote();
+    });
+    $('btnBackFromPromote').addEventListener('click', function(){ showView('home'); });
+    $('btnCancelPromo').addEventListener('click', function(){ showView('home'); });
+    $('btnApplyPromo').addEventListener('click', applyPromotion);
+
+    var hdrImg = document.querySelector('.logo-badge img');
+    if(hdrImg) $('loginLogo').src = hdrImg.src;
+
+    if(!CONFIGURED){
+      showLogin();
+      $('btnLogin').disabled = true;
+      loginMsg("Falta enganxar la configuració de Firebase al fitxer (apartat firebaseConfig). Mentre no es faci, no es pot iniciar sessió.", true);
+      return;
+    }
+    var app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+    onAuthStateChanged(auth, onAuthChange);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
